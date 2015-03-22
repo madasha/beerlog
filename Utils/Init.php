@@ -103,9 +103,8 @@ class Init
 				},
 				'beerlog_beer', 'normal', 'core'
 			);
-		});
 
-		// add_meta_box( 'beer-specs', 'Beer Profile', 'embm_beer_specs_cb', 'embm_beer', 'side', 'core' );
-		// add_meta_box( 'beer-info', 'More Information', 'embm_beer_info_cb', 'embm_beer', 'normal', 'core' );
+			// Add more meta?
+		});
 	}
 }
