@@ -37,16 +37,13 @@ class Installer
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$modelsDir = dir( __DIR__ . '/models' );
+		$modelsDir = dir( BEERLOG_BASEDIR . '/Models' );
 
 		while ( false !== ( $entry = $modelsDir->read() ) )
 		{
 			if ( preg_match( '/^(?P<class>[\w_]+)\.php$/', $entry, $matches ) )
 			{
-				// TODO: Register autoloader and forget about this!
-				require_once $modelsDir->path . '/' . $entry;
-
-				$className = 'Beerlog\\' . $matches['class'];
+				$className = 'Beerlog\\Models\\' . $matches['class'];
 
 				if ( in_array( 'Beerlog\\Interfaces\\ModelClass', class_implements( $className ) ) )
 				{

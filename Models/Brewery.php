@@ -1,22 +1,24 @@
 <?php
-namespace Beerlog;
+namespace Beerlog\Models;
 
-class Beer implements ModelClass
+class Brewery implements \Beerlog\Interfaces\ModelClass
 {
-	private static $_tableName = 'beers';
+	private static $_tableName = 'breweries';
 
 	private static $_createSql = <<<EOSQL
 CREATE TABLE ___TABLENAME___ (
   id mediumint(9) UNSIGNED NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
-  brewery_id mediumint(9) UNSIGNED NOT NULL DEFAULT 0,
-  style_id smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  owner_brewery_id mediumint(9) UNSIGNED NOT NULL DEFAULT 0,
   description text,
+  address_country_code char(2),
+  address_state char(2),
+  address_street tinytext,
+  address_city tinytext,
+  address_zip varchar(20),
   added timestamp NOT NULL,
   PRIMARY KEY  id (id),
-  KEY name (name),
-  KEY brewery_id (brewery_id),
-  KEY style_id (style_id)
+  KEY owner_brewery_id (owner_brewery_id)
 )
 EOSQL;
 

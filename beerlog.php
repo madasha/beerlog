@@ -31,11 +31,7 @@ defined( 'ABSPATH' ) or die( 'U\'r playing with powers you do not fully understa
 define( 'BEERLOG_BASEDIR', dirname( __FILE__ ) );
 define( 'BEERLOG_DIR_URL', plugin_dir_url( __FILE__ ) );
 
-// TODO: Register autoloader and forget about this!
-require_once 'Interfaces/ModelClass.php';
-require_once 'Utils/Installer.php';
-require_once 'Utils/Init.php';
-
+require "autoload.php";
 
 // Activation setup
 register_activation_hook( __FILE__, array( 'Beerlog\Utils\Installer', 'install' ) );
