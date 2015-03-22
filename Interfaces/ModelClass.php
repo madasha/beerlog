@@ -1,5 +1,5 @@
 <?php
-namespace Beerlog;
+namespace Beerlog\Interfaces;
 
 interface ModelClass
 {
