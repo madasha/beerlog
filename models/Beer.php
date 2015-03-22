@@ -3,7 +3,7 @@ namespace Beerlog;
 
 class Beer implements ModelClass
 {
-	public static $tableName = 'beers';
+	private static $_tableName = 'beers';
 
 	private static $_createSql = <<<EOSQL
 CREATE TABLE ___TABLENAME___ (
@@ -13,16 +13,21 @@ CREATE TABLE ___TABLENAME___ (
   style_id smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   description text,
   added timestamp NOT NULL,
-  PUBLIC KEY  id (id),
-  KEY  name (name),
-  KEY  brewery_id (brewery_id),
-  KEY  style_id (style_id)
+  PRIMARY KEY  id (id),
+  KEY name (name),
+  KEY brewery_id (brewery_id),
+  KEY style_id (style_id)
 )
 EOSQL;
 
 	public static function getCreateTableSql( $prefix )
 	{
-		return str_replace( '___TABLENAME___', $prefix . self::$tableName, self::$_createSql );
+		return str_replace( '___TABLENAME___', $prefix . self::$_tableName, self::$_createSql );
+	}
+
+	public static function getTableName()
+	{
+		return self::$_tableName;
 	}
 }
 

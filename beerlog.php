@@ -30,6 +30,7 @@ defined( 'ABSPATH' ) or die( 'U\'r playing with powers you do not fully understa
 
 // TODO: Register autoloader and forget about this!
 require_once 'interfaces/ModelClass.php';
+require_once 'controllers/Admin.php';
 
 class Installer
 {
@@ -79,19 +80,36 @@ class Installer
 
 				if ( in_array( __NAMESPACE__ . '\\ModelClass', class_implements( $className ) ) )
 				{
-					$tableName = $className::$tableName;
+					$tableName = $className::gettableName();
 					if ( !self::_db_table_exist( $tableName ) )
 					{
-						$createSql = $className::getCreateTableSql( $wpdb->prefix . self::BEERLOG_DB_PREFIX );
+						$createSql = $className::getCreateTableSql( $wpdb->prefix . self::BEERLOG_DB_PREFIX )
+							. $wpdb->get_charset_collate();
+
 						dbDelta( $createSql );
 					}
 				}
 			}
 		}
 	}
+
+	public function addBeerMenus()
+	{
+		$adminController = new Controllers\Admin();
+		add_menu_page( 'Beer list', 'Biers', 'manage_options',
+			'beerlog/beers_list.php', array( $adminController, 'renderBeersList' ),
+			plugin_dir_url( __FILE__ ) . 'assets/img/icons/beer.png', 8
+		);
+		add_submenu_page( 'beerlog/beers_list.php', 'Breweries', 'Breweries', 'manage_options',
+			'beerlog/breweries.php', array( $adminController, 'renderBreweries' )
+		);
+	}
 }
 
 
 // Activation setup
 register_activation_hook( __FILE__, array( 'Beerlog\Installer', 'install' ) );
+
+// Admin menu stuff
+add_action( 'admin_menu', array( 'Beerlog\Installer', 'addBeerMenus' ) );
 
