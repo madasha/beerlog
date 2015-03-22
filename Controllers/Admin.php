@@ -19,4 +19,9 @@ class Admin
 	{
 		include $this->_pluginBaseDir . 'templates/admin/breweries.php';
 	}
+
+	public function renderBeerPropertiesEdit( $beerEntity )
+	{
+		include $this->_pluginBaseDir . 'templates/admin/beer_properties.php';
+	}
 }

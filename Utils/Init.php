@@ -7,6 +7,7 @@ class Init
 	{
 		self::initBeerPostType();
 		self::initBreweryPostType();
+		self::initBeerEditMeta();
 	}
 
 	public function addBeerMenus()
@@ -85,5 +86,26 @@ class Init
 		);
 
 		register_post_type( 'beerlog_brewery', $args );
+	}
+
+	public static function initBeerEditMeta()
+	{
+		add_action('add_meta_boxes', function() {
+			add_meta_box( 'beer-properties', 'Beer Properties', function() {
+					global $post;
+					$beerEntity = get_post_custom( $post->ID );
+					$controller = new \Beerlog\Controllers\Admin;
+
+					// We'll use this nonce field later on when saving.
+					// wp_nonce_field( 'my_meta_box_nonce', 'meta_box_nonce' );
+
+					echo $controller->renderBeerPropertiesEdit( $beerEntity );
+				},
+				'beerlog_beer', 'normal', 'core'
+			);
+		});
+
+		// add_meta_box( 'beer-specs', 'Beer Profile', 'embm_beer_specs_cb', 'embm_beer', 'side', 'core' );
+		// add_meta_box( 'beer-info', 'More Information', 'embm_beer_info_cb', 'embm_beer', 'normal', 'core' );
 	}
 }
