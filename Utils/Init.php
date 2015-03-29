@@ -11,6 +11,7 @@ class Init
 		self::initBreweryPostType();
 		self::initBeerEditMeta();
 		self::initBeerSaveMeta();
+		self::initBeerSingleView();
 	}
 
 	private static function _getController( $controllerName )
@@ -125,5 +126,11 @@ class Init
 	{
 		$adminController = self::_getController( 'Admin' );
 		add_action( 'save_post', array( $adminController, 'savePostMeta' ) );
+	}
+
+	public static function initBeerSingleView()
+	{
+		$frontendController = self::_getController( 'Frontend' );
+		add_filter( 'template_include', array( $frontendController, 'getBeerSingleViewTemplate' ), 1 );
 	}
 }
