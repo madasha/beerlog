@@ -25,6 +25,10 @@ class Init
 		return self::$_controllers[ $controllerName ];
 	}
 
+	/**
+	 * Not used anymore since initBeerPostType & initBreweryPostType do the job
+	 * @deprecated
+	 */
 	public function addBeerMenus()
 	{
 		$adminController = self::_getController( 'Admin' );
@@ -63,6 +67,7 @@ class Init
 			'taxonomies'		=> array('beerlog_style', 'beerlog_brewery'),
 			'has-archive' 		=> true,
 			'menu_position' 	=> 8,
+			'menu_icon'			=> BEERLOG_DIR_URL . 'assets/img/icons/beer.png',
 			'rewrite' 			=> array( 'slug' => 'beers', 'with_front' => false, 'feeds' => true, 'pages' => true),
 			'supports'      	=> array( 'title', 'editor', 'thumbnail', 'revisions', 'comments'),
 		);

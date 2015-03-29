@@ -36,9 +36,6 @@ require "autoload.php";
 // Activation setup
 register_activation_hook( __FILE__, array( 'Beerlog\Utils\Installer', 'install' ) );
 
-// Admin menu stuff
-add_action( 'admin_menu', array( 'Beerlog\Utils\Init', 'addBeerMenus' ) );
-
 // Init stuff
 add_action( 'init', array( 'Beerlog\Utils\Init', 'initAll' ) );
 
