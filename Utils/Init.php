@@ -3,21 +3,31 @@ namespace Beerlog\Utils;
 
 class Init
 {
-	private static $_metaNonceAction 	= 'beerlog_edit_beer';
-	private static $_metaNonceField 	= 'beerlog_meta_nonce';
+	private static $_controllers = array();
 
 	public static function initAll()
 	{
 		self::initBeerPostType();
 		self::initBreweryPostType();
 		self::initBeerEditMeta();
+		self::initBeerSaveMeta();
+	}
 
-		add_action( 'save_post', array( __CLASS__, 'savePost' ) );
+	private static function _getController( $controllerName )
+	{
+		$className = '\\Beerlog\\Controllers\\' . $controllerName;
+		if ( !class_exists( $className, true ) )
+			throw new Exception( "Controller class $className does not exist!" );
+
+		if ( !isset( self::$_controllers[ $controllerName ] ) )
+			self::$_controllers[ $controllerName ] = new $className;
+
+		return self::$_controllers[ $controllerName ];
 	}
 
 	public function addBeerMenus()
 	{
-		$adminController = new \Beerlog\Controllers\Admin();
+		$adminController = self::_getController( 'Admin' );
 		add_menu_page( 'Beer list', 'Biers', 'manage_options',
 			'edit.php?post_type=beerlog_beer', '',
 			BEERLOG_DIR_URL . 'assets/img/icons/beer.png', 8
@@ -95,17 +105,10 @@ class Init
 
 	public static function initBeerEditMeta()
 	{
-		add_action('add_meta_boxes', function() {
-			add_meta_box( 'beer-properties', 'Beer Properties', function() {
-					global $post;
-					$beerEntity = get_post_custom( $post->ID );
-					$controller = new \Beerlog\Controllers\Admin;
-
-					// We'll use this nonce field later on when saving.
-					wp_nonce_field( self::$_metaNonceAction, self::$_metaNonceField );
-
-					echo $controller->renderBeerPropertiesEdit( $beerEntity );
-				},
+		$adminController = self::_getController( 'Admin' );
+		add_action('add_meta_boxes', function() use ( $adminController ) {
+			add_meta_box( 'beer-properties', 'Beer Properties',
+				array( $adminController, 'addBeerPropertiesMeta' ),
 				'beerlog_beer', 'normal', 'core'
 			);
 
@@ -113,48 +116,9 @@ class Init
 		});
 	}
 
-	/**
-	 * Save the meta when the post is saved.
-	 *
-	 * @param int $post_id The ID of the post being saved.
-	 */
-	public static function savePost( $postId )
+	public static function initBeerSaveMeta()
 	{
-		if ( !self::assertEditPossible( $postId ) )
-			return $postId;
-
-		if ( isset( $_POST['beerlog_meta'] ) && is_array( $_POST['beerlog_meta'] ) )
-		{
-			foreach ( $_POST['beerlog_meta'] as $fieldName => $value )
-			{
-				update_post_meta( $postId, "_beerlog_meta_{$fieldName}", sanitize_text_field( $value ) );
-			}
-		}
-	}
-
-	public static function assertEditPossible( $postId )
-	{
-		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-			return false;
-
-		// Verify that the nonce is pesent and valid.
-		if ( !isset( $_POST[ self::$_metaNonceField ] )
-			|| !wp_verify_nonce( $_POST[ self::$_metaNonceField ], self::$_metaNonceAction ) )
-			return false;
-
-		// Check the user's permissions.
-		if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] )
-		{
-			if ( !current_user_can( 'edit_page', $postId ) )
-				return false;
-		}
-		else
-		{
-			if ( !current_user_can( 'edit_post', $postId ) )
-				return false;
-		}
-
-		return true;
+		$adminController = self::_getController( 'Admin' );
+		add_action( 'save_post', array( $adminController, 'savePostMeta' ) );
 	}
 }
