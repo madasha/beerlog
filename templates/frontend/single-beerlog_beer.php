@@ -6,10 +6,16 @@
 // TODO: Beautify, render good meta (beer graph), location
 
 get_header(); ?>
+
+<link rel="stylesheet" href="<?php echo BEERLOG_DIR_URL;?>assets/css/radar-chart.css">
+
+<script type="text/javascript" src="http://d3js.org/d3.v3.js"></script>
+<script type="text/javascript" src="<?php echo BEERLOG_DIR_URL;?>assets/js/radar-chart.js"></script>
+
 <div id="primary">
     <div id="content" role="main">
     <?php
-    $mypost = array( 'post_type' => 'beerlog_beer', );
+    $mypost = array( 'post_type' => 'beerlog_beer' );
     $loop = new WP_Query( $mypost );
     ?>
     <?php while ( $loop->have_posts() ) : $loop->the_post();?>
@@ -22,10 +28,7 @@ get_header(); ?>
                 </div>
 
                 <!-- Display Title and Author Name -->
-                <strong>Title: </strong><?php the_title(); ?><br />
-                <strong>Director: </strong>
-                <?php echo esc_html( get_post_meta( get_the_ID(), 'movie_director', true ) ); ?>
-                <br />
+                <?php the_title(); ?><br />
 
                 <!-- Display yellow stars based on rating -->
                 <strong>Rating: </strong>
@@ -42,7 +45,31 @@ get_header(); ?>
             </header>
 
             <!-- Display movie review contents -->
-            <div class="entry-content"><?php the_content(); ?></div>
+            <div class="entry-content">
+                <?php the_content(); ?>
+
+                <strong>Director: </strong>
+                <?php echo esc_html( get_post_meta( get_the_ID(), 'movie_director', true ) ); ?>
+                <br />
+
+                <strong>Beer properties chart:</strong>
+                <div id="chart"></div>
+            </div>
+
+            <!-- Can use this chart to compare beers! -->
+            <script type="text/javascript">
+            d = [
+                [
+                    {axis: "strength", value: 13},
+                    {axis: "intelligence", value: 1},
+                    {axis: "charisma", value: 8},
+                    {axis: "dexterity", value: 4},
+                    {axis: "luck", value: 9}
+                ]
+            ];
+
+            RadarChart.draw("#chart", d);
+            </script>
         </article>
 
     <?php endwhile; ?>
