@@ -29,8 +29,8 @@ get_header(); ?>
                     <?php the_post_thumbnail( array( 100, 100 ) ); ?>
                 </div>
 
-                <!-- Display Title and Author Name -->
-                <?php the_title(); ?><br />
+                <!-- Display Title -->
+                <strong><?php the_title(); ?></strong><br />
             </header>
 
             <!-- Display movie review contents -->
@@ -71,7 +71,7 @@ get_header(); ?>
                             {axis: "<?php _e('Bitter', 'beerlog'); ?>"      , value: 4},
                             {axis: "<?php _e('Dry', 'beerlog'); ?>"         , value: 2},
                             {axis: "<?php _e('Body', 'beerlog'); ?>"        , value: 1},
-                            {axis: "<?php _e('Linger', 'beerlog'); ?>"      , value: 5},
+                            {axis: "<?php _e('Linger', 'beerlog'); ?>"      , value: 5}
                         ]
                     ];
                     <?php else: ?>
