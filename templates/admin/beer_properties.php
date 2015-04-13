@@ -24,6 +24,17 @@ foreach ( $propsPro as $propName => $propValue )
     <tbody>
     	<tr>
 	    	<td>
+	    		<p>
+			    	<label for="beerlog_meta_abv"><strong><?php _e('ABV: ', 'beerlog'); ?></strong></label>
+					<input type="number" name="beerlog_meta[abv]" id="beerlog_meta_abv"
+					min="0.0" max="100.0" step="0.1" value="<?php echo get_post_meta( $post->ID, '_beerlog_meta_abv', true ); ?>" /> %
+				</p>
+			    <p>
+			    	<label for="beerlog_meta_style"><strong><?php _e('IBU: ', 'beerlog'); ?></strong></label>
+					<input type="number" name="beerlog_meta[ibu]" id="beerlog_meta_style"
+					min="0" max="100" step="1" value="<?php echo get_post_meta( $post->ID, '_beerlog_meta_ibu', true ); ?>" />
+				</p>
+				<hr />
 			    <p>
 			    	<label for="beerlog_meta_malts"><strong><?php _e('Malts: ', 'beerlog'); ?></strong></label><br />
 			    	<input type="text" name="beerlog_meta[malts]" id="beerlog_meta_malts" style="width:100%;"
@@ -44,17 +55,6 @@ foreach ( $propsPro as $propName => $propValue )
 			    	<input type="text" name="beerlog_meta[yeast]" id="beerlog_meta_yeast" style="width:100%;"
 			    	value="<?php echo get_post_meta( $post->ID, '_beerlog_meta_yeast', true ); ?>" />
 			    </p>
-	    		<hr />
-			    <p>
-			    	<label for="beerlog_meta_abv"><strong><?php _e('ABV: ', 'beerlog'); ?></strong></label>
-					<input type="number" name="beerlog_meta[abv]" id="beerlog_meta_abv"
-					min="0.0" max="100.0" step="0.1" value="<?php echo get_post_meta( $post->ID, '_beerlog_meta_abv', true ); ?>" /> %
-				</p>
-			    <p>
-			    	<label for="beerlog_meta_style"><strong><?php _e('IBU: ', 'beerlog'); ?></strong></label>
-					<input type="number" name="beerlog_meta[ibu]" id="beerlog_meta_style"
-					min="0" max="100" step="1" value="<?php echo get_post_meta( $post->ID, '_beerlog_meta_ibu', true ); ?>" />
-				</p>
 	    	</td>
     	</tr>
     	<tr>
@@ -64,17 +64,18 @@ foreach ( $propsPro as $propName => $propValue )
     					$propChart = get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true );
     				?>
     				<hr />
-			    	<label for="beerlog_meta_prop_chart_off"><strong><?php _e('Show properties graph: ', 'beerlog'); ?></strong></label>
-					<input type="radio" name="beerlog_meta[prop_chart]" id="beerlog_meta_prop_chart_off"
-						value="0" <?php if ( !$propChart ) echo 'checked="checked"'; ?> onclick="togglePropsChart( value )" />
+			    	<label for="beerlog_meta_prop_chart"><strong><?php _e('Show properties graph: ', 'beerlog'); ?></strong></label>
+					<input type="radio" name="beerlog_meta[prop_chart]" id="beerlog_meta_prop_chart"
+						value="0" <?php if ( 0 == $propChart ) echo 'checked="checked"'; ?> onclick="togglePropsChart( value )" />
 					<?php _e('Off', 'beerlog'); ?> |
-					<input type="radio" name="beerlog_meta[prop_chart]" id="beerlog_meta_prop_chart_simple"
-						value="simple" <?php if ( 'simple' == $propChart ) echo 'checked="checked"'; ?> onclick="togglePropsChart( value )" />
+					<input type="radio" name="beerlog_meta[prop_chart]" value="simple" onclick="togglePropsChart( value )"
+						<?php if ( 'simple' == $propChart ) echo 'checked="checked"'; ?>  />
 					<?php _e('Simple', 'beerlog'); ?> |
-					<input type="radio" name="beerlog_meta[prop_chart]" id="beerlog_meta_prop_chart_pro"
-					value="pro" <?php if ( 'pro' == $propChart ) echo 'checked="checked"'; ?> onclick="togglePropsChart( value )" />
+					<input type="radio" name="beerlog_meta[prop_chart]"	value="pro" onclick="togglePropsChart( value )"
+						<?php if ( 'pro' == $propChart ) echo 'checked="checked"'; ?> />
 					<?php _e('Pro', 'beerlog'); ?>
 
+					<br />
 					<div id="beerlog_props_simple" <?php if ( 'simple' != $propChart ) echo 'style="display: none"'?>>
 						<table width="50%" cellpadding="0" cellspacing="0">
 							<?php foreach ( $propsSimple as $propName => $propValue ): ?>
@@ -91,6 +92,12 @@ foreach ( $propsPro as $propName => $propValue )
 							</tr>
 							<?php endforeach; ?>
 						</table>
+
+						<!-- May implement a live preview of the spider chart upon change here
+						<div style="float: right; vertical-align: text-top">
+							kurec
+						</div>
+						-->
 					</div>
 
 					<div id="beerlog_props_pro" <?php if ( 'pro' != $propChart ) echo 'style="display: none"'?>>

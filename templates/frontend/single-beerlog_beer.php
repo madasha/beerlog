@@ -45,13 +45,12 @@ get_header(); ?>
                 <?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_ibu', true ) ); ?>
                 <br />
 
-                <?php if ( true || $hasPropsChart ): ?>
+                <?php if ( $hasPropsChart ): ?>
 
                     <strong><?php _e('Beer properties chart: ', 'beerlog'); ?></strong>
                     <div id="chart"></div>
 
                     <!-- Can use this chart to compare beers! -->
-
                     <script type="text/javascript">
 
                     <?php if ( 'pro' == $hasPropsChart ): ?>
