@@ -9,20 +9,19 @@ get_header(); ?>
 
 <link rel="stylesheet" href="<?php echo BEERLOG_DIR_URL;?>assets/css/radar-chart.css">
 
-<script type="text/javascript" src="http://d3js.org/d3.v3.js"></script>
+<script type="text/javascript" src="<?php echo BEERLOG_DIR_URL;?>assets/js/d3.v3.js"></script>
 <script type="text/javascript" src="<?php echo BEERLOG_DIR_URL;?>assets/js/radar-chart.js"></script>
 
 <div id="primary">
     <div id="content" role="main">
-    <?php
-    $mypost = array( 'post_type' => 'beerlog_beer' );
-    $loop = new WP_Query( $mypost );
-    ?>
-    <?php while ( $loop->have_posts() ):
-        $post           = $loop->the_post();
-        $hasPropsChart  = get_post_meta( get_the_ID(), '_beerlog_meta_prop_chart', true );
-    ?>
-        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+        <?php
+            // var_dump( $post );
+            $beerPost = new \Beerlog\Models\Beer( $post );
+            // var_dump( $beerPost );
+            // $hasPropsChart  = $beerPost->getMeta( '_beerlog_meta_prop_chart' );
+            $hasPropsChart  = get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true );
+        ?>
+        <article id="post-<?php echo $post->ID; ?>">
             <header class="entry-header">
 
                 <!-- Display featured image in right-aligned floating div -->
@@ -32,19 +31,6 @@ get_header(); ?>
 
                 <!-- Display Title and Author Name -->
                 <?php the_title(); ?><br />
-
-                <!-- Display yellow stars based on rating -->
-                <strong><?php _e('Rating: ', 'beerlog'); ?></strong>
-                <?php
-                $nb_stars = intval( get_post_meta( get_the_ID(), 'beer_rating', true ) );
-                for ( $star_counter = 1; $star_counter <= 5; $star_counter++ ) {
-                    if ( $star_counter <= $nb_stars ) {
-                        echo '<img src="' . plugins_url( 'Movie-Reviews/images/icon.png' ) . '" />';
-                    } else {
-                        echo '<img src="' . plugins_url( 'Movie-Reviews/images/grey.png' ). '" />';
-                    }
-                }
-                ?>
             </header>
 
             <!-- Display movie review contents -->
@@ -52,11 +38,11 @@ get_header(); ?>
                 <?php the_content(); ?>
 
                 <strong><?php _e('Alcohol (ABV): ', 'beerlog'); ?></strong>
-                <?php echo esc_html( get_post_meta( get_the_ID(), '_beerlog_meta_abv', true ) ); ?> %
+                <?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_abv', true ) ); ?> %
                 <br />
 
                 <strong><?php _e('IBU: ', 'beerlog'); ?></strong>
-                <?php echo esc_html( get_post_meta( get_the_ID(), '_beerlog_meta_ibu', true ) ); ?>
+                <?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_ibu', true ) ); ?>
                 <br />
 
                 <?php if ( true || $hasPropsChart ): ?>
@@ -111,7 +97,6 @@ get_header(); ?>
 
         </article>
 
-    <?php endwhile; ?>
     </div>
 </div>
 <?php wp_reset_query(); ?>

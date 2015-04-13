@@ -35,5 +35,22 @@
 				</p>
 	    	</td>
     	</tr>
+    	<tr>
+    		<td>
+    			<p>
+    				<hr />
+			    	<label for="_beerlog_meta_prop_chart_off"><strong><?php _e('Show properties graph: ', 'beerlog'); ?></strong></label>
+					<input type="radio" name="beerlog_meta[prop_chart]" id="_beerlog_meta_prop_chart_off"
+					value="0" <?php if ( !get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true ) ) echo 'checked="checked"'; ?> />
+					<?php _e('Off', 'beerlog'); ?> |
+					<input type="radio" name="beerlog_meta[prop_chart]" id="_beerlog_meta_prop_chart_simple"
+					value="simple" <?php if ( get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true ) == 'simple' ) echo 'checked="checked"'; ?> />
+					<?php _e('Simple', 'beerlog'); ?> |
+					<input type="radio" name="beerlog_meta[prop_chart]" id="_beerlog_meta_prop_chart_pro"
+					value="pro" <?php if ( get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true ) == 'pro' ) echo 'checked="checked"'; ?> />
+					<?php _e('Pro', 'beerlog'); ?>
+				</p>
+    		</td>
+    	</tr>
     </tbody>
 </table>

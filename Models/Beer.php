@@ -20,6 +20,8 @@ CREATE TABLE ___TABLENAME___ (
 )
 EOSQL;
 
+	private $_post;
+
 	public static function getCreateTableSql( $prefix )
 	{
 		return str_replace( '___TABLENAME___', $prefix . self::$_tableName, self::$_createSql );
@@ -28,6 +30,42 @@ EOSQL;
 	public static function getTableName()
 	{
 		return self::$_tableName;
+	}
+
+	public function __construct( $post )
+	{
+		$this->setPost( $post );
+	}
+
+	public function getPost()
+	{
+		return $this->_post;
+	}
+
+	public function setPost( $post )
+	{
+		$this->_post = $post;
+	}
+
+	public function getTitle()
+	{
+		if ( !function_exists('get_the_title') )
+		{
+			// throw new Exception( "WP not initialized - function 'get_the_title' doea not exist!" );
+			return $this->_post->post_title;
+		}
+
+		return get_the_title( $this->_post->ID );
+	}
+
+	public function getMeta( $metaName, $single = true, $escHtml = true )
+	{
+		if ( !function_exists('get_post_meta') )
+			throw new Exception( "WP not initialized - function 'get_post_meta' doea not exist!" );
+
+		$meta = get_post_meta( $this->_post->ID, '_beerlog_meta_abv', $single );
+
+		return $escHtml ? esc_html( $meta ) : $meta;
 	}
 }
 
