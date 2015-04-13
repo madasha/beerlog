@@ -52,38 +52,22 @@ get_header(); ?>
 
                     <!-- Can use this chart to compare beers! -->
 
-                    <?php if ( true || 'pro' == $hasPropsChart ): ?>
                     <script type="text/javascript">
+
+                    <?php if ( 'pro' == $hasPropsChart ): ?>
                     var beerData = [
                         [
-                            {axis: "<?php _e('Fruty', 'beerlog'); ?>"       , value: 2},
-                            {axis: "<?php _e('Alcoholic', 'beerlog'); ?>"   , value: 4},
-                            {axis: "<?php _e('Citrus', 'beerlog'); ?>"      , value: 3},
-                            {axis: "<?php _e('Hoppy', 'beerlog'); ?>"       , value: 2},
-                            {axis: "<?php _e('Floral', 'beerlog'); ?>"      , value: 3},
-                            {axis: "<?php _e('Spicy', 'beerlog'); ?>"       , value: 5},
-                            {axis: "<?php _e('Malty', 'beerlog'); ?>"       , value: 4},
-                            {axis: "<?php _e('Toffee', 'beerlog'); ?>"      , value: 2},
-                            {axis: "<?php _e('Burnt', 'beerlog'); ?>"       , value: 4},
-                            {axis: "<?php _e('Sulphury', 'beerlog'); ?>"    , value: 1},
-                            {axis: "<?php _e('Sweet', 'beerlog'); ?>"       , value: 5},
-                            {axis: "<?php _e('Sour', 'beerlog'); ?>"        , value: 3},
-                            {axis: "<?php _e('Bitter', 'beerlog'); ?>"      , value: 4},
-                            {axis: "<?php _e('Dry', 'beerlog'); ?>"         , value: 2},
-                            {axis: "<?php _e('Body', 'beerlog'); ?>"        , value: 1},
-                            {axis: "<?php _e('Linger', 'beerlog'); ?>"      , value: 5}
+                        <?php foreach ( \Beerlog\Utils\Init::$propsPro as $propName => $porpDefaultValue ):?>
+                            {axis: "<?php _e(ucfirst( $propName ), 'beerlog'); ?>", value: <?php echo (int) get_post_meta( $post->ID, "_beerlog_meta_props_{$propName}" , true ) ?> },
+                        <?php endforeach; ?>
                         ]
                     ];
                     <?php else: ?>
                     var beerData = [
                         [
-                            {axis: "<?php _e('Sourness', 'beerlog'); ?>"    , value: 2},
-                            {axis: "<?php _e('Bitterness', 'beerlog'); ?>"  , value: 4},
-                            {axis: "<?php _e('Sweetness', 'beerlog'); ?>"   , value: 3},
-                            {axis: "<?php _e('Saltiness', 'beerlog'); ?>"   , value: 2},
-                            {axis: "<?php _e('Yeast', 'beerlog'); ?>"       , value: 3},
-                            {axis: "<?php _e('Hop', 'beerlog'); ?>"         , value: 5},
-                            {axis: "<?php _e('Malt', 'beerlog'); ?>"        , value: 4}
+                        <?php foreach ( \Beerlog\Utils\Init::$propsSimple as $propName => $porpDefaultValue ):?>
+                            {axis: "<?php _e(ucfirst( $propName ), 'beerlog'); ?>", value: <?php echo (int) get_post_meta( $post->ID, "_beerlog_meta_props_{$propName}" , true ) ?> },
+                        <?php endforeach; ?>
                         ]
                     ];
                     <?php endif; ?>

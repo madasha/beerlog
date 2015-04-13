@@ -46,6 +46,27 @@ class Admin
 			{
 				update_post_meta( $postId, "_beerlog_meta_{$fieldName}", sanitize_text_field( $value ) );
 			}
+
+			if ( isset( $_POST['beerlog_meta']['prop_chart'] ) )
+			{
+				$fieldsArr = array();
+				if ( 'simple' == $_POST['beerlog_meta']['prop_chart'] )
+				{
+					$fieldsArr = \Beerlog\Utils\Init::$propsSimple;
+				}
+				elseif ( 'pro' == $_POST['beerlog_meta']['prop_chart'] )
+				{
+					$fieldsArr = \Beerlog\Utils\Init::$propsPro;
+				}
+
+				foreach ( $fieldsArr as $propName => $value )
+				{
+					if ( isset( $_POST['beerlog_meta_props'][ $propName ] ) )
+					{
+						update_post_meta( $postId, "_beerlog_meta_props_{$propName}", (int) $_POST['beerlog_meta_props'][ $propName ] );
+					}
+				}
+			}
 		}
 	}
 

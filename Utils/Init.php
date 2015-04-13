@@ -3,6 +3,35 @@ namespace Beerlog\Utils;
 
 class Init
 {
+	public static $propsSimple = array(
+	  	'sourness'    => 1,
+		'bitterness'  => 1,
+	    'sweetness'   => 1,
+	    'saltiness'   => 1,
+	    'yeast'       => 1,
+	    'hop'         => 1,
+	    'malt'        => 1,
+	);
+
+	public static $propsPro = array(
+	  	'fruty'       => 1,
+	    'alcoholic'   => 1,
+	    'citrus'      => 1,
+	    'hoppy'       => 1,
+	    'floral'      => 1,
+	    'spicy'       => 1,
+	    'malty'       => 1,
+	    'toffee'      => 1,
+	    'burnt'       => 1,
+	    'sulphury'    => 1,
+	    'sweet'       => 1,
+	    'sour'        => 1,
+	    'bitter'      => 1,
+	    'dry'         => 1,
+	    'body'        => 1,
+	    'linger'      => 1,
+	);
+
 	private static $_controllers = array();
 
 	public static function initAll()

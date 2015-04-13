@@ -1,14 +1,6 @@
 <?php
 // Initialize simple beer chart props
-$propsSimple = array(
-  	'sourness'    => 1,
-	'bitterness'  => 1,
-    'sweetness'   => 1,
-    'saltiness'   => 1,
-    'yeast'       => 1,
-    'hop'         => 1,
-    'malt'        => 1,
-);
+$propsSimple = \Beerlog\Utils\Init::$propsSimple;
 
 // Fetch values from post meta in case they are set
 foreach ( $propsSimple as $propName => $propValue )
@@ -18,24 +10,7 @@ foreach ( $propsSimple as $propName => $propValue )
 }
 
 // Initialize pro beer chart props
-$propsPro = array(
-  	'fruty'       => 1,
-    'alcoholic'   => 1,
-    'citrus'      => 1,
-    'hoppy'       => 1,
-    'floral'      => 1,
-    'spicy'       => 1,
-    'malty'       => 1,
-    'toffee'      => 1,
-    'burnt'       => 1,
-    'sulphury'    => 1,
-    'sweet'       => 1,
-    'sour'        => 1,
-    'bitter'      => 1,
-    'dry'         => 1,
-    'body'        => 1,
-    'linger'      => 1,
-);
+$propsPro = \Beerlog\Utils\Init::$propsPro;
 
 // Fetch values from post meta in case they are set
 foreach ( $propsPro as $propName => $propValue )
@@ -91,33 +66,49 @@ foreach ( $propsPro as $propName => $propValue )
     				<hr />
 			    	<label for="beerlog_meta_prop_chart_off"><strong><?php _e('Show properties graph: ', 'beerlog'); ?></strong></label>
 					<input type="radio" name="beerlog_meta[prop_chart]" id="beerlog_meta_prop_chart_off"
-					value="0" <?php if ( !$propChart ) echo 'checked="checked"'; ?> />
+						value="0" <?php if ( !$propChart ) echo 'checked="checked"'; ?> onclick="togglePropsChart( value )" />
 					<?php _e('Off', 'beerlog'); ?> |
 					<input type="radio" name="beerlog_meta[prop_chart]" id="beerlog_meta_prop_chart_simple"
-					value="simple" <?php if ( 'simple' == $propChart ) echo 'checked="checked"'; ?> />
+						value="simple" <?php if ( 'simple' == $propChart ) echo 'checked="checked"'; ?> onclick="togglePropsChart( value )" />
 					<?php _e('Simple', 'beerlog'); ?> |
 					<input type="radio" name="beerlog_meta[prop_chart]" id="beerlog_meta_prop_chart_pro"
-					value="pro" <?php if ( 'pro' == $propChart ) echo 'checked="checked"'; ?> />
+					value="pro" <?php if ( 'pro' == $propChart ) echo 'checked="checked"'; ?> onclick="togglePropsChart( value )" />
 					<?php _e('Pro', 'beerlog'); ?>
 
-					<div id="beerlog_props_simple" <?php if ( false && 'simple' != $propChart ) echo 'style="display: none"'?>>
+					<div id="beerlog_props_simple" <?php if ( 'simple' != $propChart ) echo 'style="display: none"'?>>
 						<table width="50%" cellpadding="0" cellspacing="0">
-						<?php foreach ( $propsSimple as $propName => $propValue ): ?>
-						<tr>
-							<td width="20%">
-								<label for="beerlog_meta_props_<?php echo $propName?>" style="vertical-align: text-top;"><strong><?php _e( ucfirst( $propName ) . ': ', 'beerlog'); ?></strong></label>
-							</td>
-							<td>
-								<input type="range" name="beerlog_meta_props[ <?php echo $propName?> ]" id="beerlog_meta_props_<?php echo $propName?>"
-									min="1" max="5" step="1" value="<?php echo $propValue; ?>" defaultValue="<?php echo $propValue; ?>"
-									style="vertical-align: text-top" oninput="outputUpdate('<?php echo $propName?>', value)" />
-								<input id="beerlog_output_<?php echo $propName?>" type="text" style="width: 30px" value="<?php echo $propValue; ?>" />
-							</td>
-						</tr>
-						<?php endforeach; ?>
+							<?php foreach ( $propsSimple as $propName => $propValue ): ?>
+							<tr>
+								<td width="20%">
+									<label for="beerlog_meta_props_<?php echo $propName?>" style="vertical-align: text-top;"><strong><?php _e( ucfirst( $propName ) . ': ', 'beerlog'); ?></strong></label>
+								</td>
+								<td>
+									<input type="range" name="beerlog_meta_props[<?php echo $propName?>]" id="beerlog_meta_props_<?php echo $propName?>"
+										min="1" max="5" step="1" value="<?php echo $propValue; ?>" defaultValue="<?php echo $propValue; ?>"
+										style="vertical-align: text-top" oninput="outputUpdate('<?php echo $propName?>', value)" />
+									<input id="beerlog_output_<?php echo $propName?>" type="text" style="width: 30px" value="<?php echo $propValue; ?>" />
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</table>
 					</div>
 
 					<div id="beerlog_props_pro" <?php if ( 'pro' != $propChart ) echo 'style="display: none"'?>>
+						<table width="50%" cellpadding="0" cellspacing="0">
+							<?php foreach ( $propsPro as $propName => $propValue ): ?>
+							<tr>
+								<td width="20%">
+									<label for="beerlog_meta_props_<?php echo $propName?>" style="vertical-align: text-top;"><strong><?php _e( ucfirst( $propName ) . ': ', 'beerlog'); ?></strong></label>
+								</td>
+								<td>
+									<input type="range" name="beerlog_meta_props[<?php echo $propName?>]" id="beerlog_meta_props_<?php echo $propName?>"
+										min="1" max="5" step="1" value="<?php echo $propValue; ?>" defaultValue="<?php echo $propValue; ?>"
+										style="vertical-align: text-top" oninput="outputUpdate('<?php echo $propName?>', value)" />
+									<input id="beerlog_output_<?php echo $propName?>" type="text" style="width: 30px" value="<?php echo $propValue; ?>" />
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</table>
 					</div>
 				</p>
     		</td>
@@ -126,9 +117,27 @@ foreach ( $propsPro as $propName => $propValue )
 </table>
 
 <script type="text/javascript">
+function togglePropsChart( value )
+{
+	if ( 'simple' == value )
+	{
+		document.getElementById( 'beerlog_props_simple' ).style.display = 'block';
+		document.getElementById( 'beerlog_props_pro' ).style.display 	= 'none';
+	}
+	else if ( 'pro' == value )
+	{
+		document.getElementById( 'beerlog_props_simple' ).style.display = 'none';
+		document.getElementById( 'beerlog_props_pro' ).style.display 	= 'block';
+	}
+	else
+	{
+		document.getElementById( 'beerlog_props_simple' ).style.display = 'none';
+		document.getElementById( 'beerlog_props_pro' ).style.display 	= 'none';
+	}
+}
+
 function outputUpdate( propName, value )
 {
-	// console.log( propName, value );
 	document.getElementById('beerlog_output_' + propName).value = value;
 }
 </script>
