@@ -33,7 +33,7 @@ var RadarChart = {
         tooltip.select("rect").classed("visible", 0);
       }else{
         tooltip.classed("visible", 1);
-            
+
             var x = d3.event.x;
                 y = d3.event.y;
 

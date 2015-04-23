@@ -14,15 +14,17 @@ get_header(); ?>
 
 <div id="primary">
     <div id="content" role="main">
+    <?php while ( have_posts() ):?>
         <?php
+            the_post();
             // var_dump( $post );
-            $beerPost = new \Beerlog\Models\Beer( $post );
-            // var_dump( $beerPost );
+            // $beerPost = new \Beerlog\Models\Beer( $post );
+            // var_dump( get_the_content() );
             // $hasPropsChart  = $beerPost->getMeta( '_beerlog_meta_prop_chart' );
             $hasPropsChart  = get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true );
         ?>
         <article id="post-<?php echo $post->ID; ?>">
-            <header class="entry-header">
+            <header class="entry-header" style="padding-top: 20px">
 
                 <!-- Display featured image in right-aligned floating div -->
                 <div style="float: right; margin: 10px">
@@ -33,9 +35,9 @@ get_header(); ?>
                 <strong><?php the_title(); ?></strong><br />
             </header>
 
-            <!-- Display movie review contents -->
+            <!-- Display beer post contents -->
             <div class="entry-content">
-                <?php the_content(); ?>
+                <p><?php the_content(); ?></p>
 
                 <table cellpadding="0" cellspacing="0">
                     <tr>
@@ -67,8 +69,8 @@ get_header(); ?>
 
                 <?php if ( $hasPropsChart ): ?>
 
-                    <strong><?php _e('Beer properties chart: ', 'beerlog'); ?></strong>
-                    <div id="chart"></div>
+                    <h4><?php _e('Beer properties chart: ', 'beerlog'); ?></h4>
+                    <div id="chart" style="text-align: center"></div>
 
                     <!-- Can use this chart to compare beers! -->
                     <script type="text/javascript">
@@ -91,15 +93,16 @@ get_header(); ?>
                     ];
                     <?php endif; ?>
 
+                    RadarChart.defaultConfig.w = 500;
+                    RadarChart.defaultConfig.h = 500;
                     RadarChart.draw("#chart", beerData);
                     </script>
 
                 <?php endif; ?>
             </div>
-
-
         </article>
 
+    <?php endwhile;?>
     </div>
 </div>
 <?php wp_reset_query(); ?>
