@@ -43,7 +43,7 @@ class Init
 		self::initBeerSaveMeta();
 		self::initBeerCustomTaxonomies();
 		self::initBeerStyles();
-		self::initBeerSingleView();
+		self::initBeerViewTemplates();
 
 		// echo "Styles:\n";
 		// var_dump( get_terms( 'beerlog_style' ) );
@@ -242,9 +242,9 @@ class Init
 		add_action( 'save_post', array( $adminController, 'savePostMeta' ) );
 	}
 
-	public static function initBeerSingleView()
+	public static function initBeerViewTemplates()
 	{
 		$frontendController = self::_getController( 'Frontend' );
-		add_filter( 'template_include', array( $frontendController, 'getBeerSingleViewTemplate' ), 1 );
+		add_filter( 'template_include', array( $frontendController, 'getBeerViewTemplate' ), 1 );
 	}
 }
