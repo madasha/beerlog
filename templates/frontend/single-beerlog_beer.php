@@ -37,13 +37,33 @@ get_header(); ?>
             <div class="entry-content">
                 <?php the_content(); ?>
 
-                <strong><?php _e('Alcohol (ABV): ', 'beerlog'); ?></strong>
-                <?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_abv', true ) ); ?> %
-                <br />
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th width="20%"><?php _e('Alcohol (ABV): ', 'beerlog'); ?></th>
+                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_abv', true ) ); ?> %</td>
+                        <th width="20%"><?php _e('IBU: ', 'beerlog'); ?></th>
+                        <td><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_ibu', true ) ); ?></td>
+                    </tr>
+                </table>
 
-                <strong><?php _e('IBU: ', 'beerlog'); ?></strong>
-                <?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_ibu', true ) ); ?>
-                <br />
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th width="20%"><?php _e('Malts: ', 'beerlog'); ?></th>
+                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_malts', true ) ); ?></td>
+                    </tr>
+                    <tr>
+                        <th width="20%"><?php _e('Hops: ', 'beerlog'); ?></th>
+                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_hops', true ) ); ?></td>
+                    </tr>
+                    <tr>
+                        <th width="20%"><?php _e('Additions/Spices: ', 'beerlog'); ?></th>
+                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_adds', true ) ); ?></td>
+                    </tr>
+                    <tr>
+                        <th width="20%"><?php _e('Yeast: ', 'beerlog'); ?></th>
+                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_yeast', true ) ); ?></td>
+                    </tr>
+                </table>
 
                 <?php if ( $hasPropsChart ): ?>
 
