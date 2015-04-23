@@ -15,6 +15,15 @@ class Frontend
 	    		else
 	        		$templatePath = plugin_dir_path( dirname( __FILE__ ) ) . '/templates/frontend/single-beerlog_beer.php';
 			}
+			else
+			{
+				// checks if the file exists in the theme first,
+	    		// otherwise serve the file from the plugin
+				if ( $theme_file = locate_template( array( 'archive-beerlog_beer.php' ) ) )
+	        		$templatePath = $theme_file;
+	    		else
+	        		$templatePath = plugin_dir_path( dirname( __FILE__ ) ) . '/templates/frontend/archive-beerlog_beer.php';
+			}
 		}
 
 		return $templatePath;

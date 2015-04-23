@@ -1,0 +1,50 @@
+[
+	{
+		"name": 	"Ale",
+		"slug": 	"ales",
+		"children": [
+			{
+				"name": "Pale Ale",
+				"slug": "pale-ale",
+				"children": [
+					{
+						"name": "India Pale Ale",
+						"slug": "ipa",
+						"children": []
+					},
+					{
+						"name": "American Pale Ale",
+						"slug": "american-pale-ale",
+						"children": []
+					}
+				]
+			},
+			{
+				"name": "Lambic",
+				"slug": "lambic",
+				"children": []
+			},
+			{
+				"name": "German Ale",
+				"slug": "german-ale",
+				"children": []
+			}
+		]
+	},
+	{
+		"name": 	"Lager",
+		"slug": 	"lagers",
+		"children": [
+			{
+				"name": 	"German Lager",
+				"slug": 	"german-lager",
+				"children": []
+			},
+			{
+				"name": 	"Pilsner",
+				"slug": 	"pilsner",
+				"children": []
+			}
+		]
+	}
+]

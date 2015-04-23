@@ -17,11 +17,14 @@ get_header(); ?>
     <?php while ( have_posts() ):?>
         <?php
             the_post();
-            // var_dump( $post );
-            // $beerPost = new \Beerlog\Models\Beer( $post );
-            // var_dump( get_the_content() );
-            // $hasPropsChart  = $beerPost->getMeta( '_beerlog_meta_prop_chart' );
-            $hasPropsChart  = get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true );
+            $beerPost = new \Beerlog\Models\Beer( $post );
+
+            $beerStyles     = $beerPost->getStyles();
+            $hasPropsChart  = $beerPost->getMeta( '_beerlog_meta_prop_chart' );
+            // $hasPropsChart  = get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true );
+            // $beerStyles     = wp_get_post_terms( $post->ID, 'beerlog_style',
+            //     array( 'orderby' => 'parent', 'order' => 'ASC' )
+            // );
         ?>
         <article id="post-<?php echo $post->ID; ?>">
             <header class="entry-header" style="padding-top: 20px">
@@ -49,21 +52,33 @@ get_header(); ?>
                 </table>
 
                 <table cellpadding="0" cellspacing="0">
+                    <?php if ( is_array( $beerStyles ) ): ?>
                     <tr>
-                        <th width="20%"><?php _e('Malts: ', 'beerlog'); ?></th>
-                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_malts', true ) ); ?></td>
+                        <th width="35%"><?php _e( count( $beerStyles ) > 1 ? 'Styles: ' : 'Style: ', 'beerlog'); ?></th>
+                        <td>
+                            <?php foreach ( $beerStyles as $styleTerm ): ?>
+                                <span style="border: 1px solid #a1a1a1; padding: 3px; background: #dddddd; border-radius: 4px; margin-right: 4px">
+                                    <?php echo $styleTerm->link ? $styleTerm->link : esc_html( $styleTerm->name ); ?>
+                                </span>
+                            <?php endforeach; ?>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                    <tr>
+                        <th width="35%"><?php _e('Malts: ', 'beerlog'); ?></th>
+                        <td><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_malts', true ) ); ?></td>
                     </tr>
                     <tr>
-                        <th width="20%"><?php _e('Hops: ', 'beerlog'); ?></th>
-                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_hops', true ) ); ?></td>
+                        <th width="35%"><?php _e('Hops: ', 'beerlog'); ?></th>
+                        <td><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_hops', true ) ); ?></td>
                     </tr>
                     <tr>
-                        <th width="20%"><?php _e('Additions/Spices: ', 'beerlog'); ?></th>
-                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_adds', true ) ); ?></td>
+                        <th width="35%"><?php _e('Additions/Spices: ', 'beerlog'); ?></th>
+                        <td><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_adds', true ) ); ?></td>
                     </tr>
                     <tr>
-                        <th width="20%"><?php _e('Yeast: ', 'beerlog'); ?></th>
-                        <td width="30%"><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_yeast', true ) ); ?></td>
+                        <th width="35%"><?php _e('Yeast: ', 'beerlog'); ?></th>
+                        <td><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_yeast', true ) ); ?></td>
                     </tr>
                 </table>
 

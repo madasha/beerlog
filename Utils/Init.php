@@ -33,6 +33,7 @@ class Init
 	);
 
 	private static $_controllers = array();
+	private static $_stylesLoaded = false;
 
 	public static function initAll()
 	{
@@ -40,7 +41,13 @@ class Init
 		self::initBreweryPostType();
 		self::initBeerEditMeta();
 		self::initBeerSaveMeta();
+		self::initBeerCustomTaxonomies();
+		self::initBeerStyles();
 		self::initBeerSingleView();
+
+		// echo "Styles:\n";
+		// var_dump( get_terms( 'beerlog_style' ) );
+		// exit;
 	}
 
 	private static function _getController( $controllerName )
@@ -89,17 +96,21 @@ class Init
 		);
 
 		$args = array(
-			'labels'        	=> $labels,
-			'description'   	=> 'Holds beer-related data',
-			'public'        	=> true,
-			'capability_type' 	=> 'post',
-			'hierarchical' 		=> false,
-			'taxonomies'		=> array('beerlog_style', 'beerlog_brewery'),
-			'has-archive' 		=> true,
-			'menu_position' 	=> 8,
-			'menu_icon'			=> BEERLOG_DIR_URL . 'assets/img/icons/beer.png',
-			'rewrite' 			=> array( 'slug' => 'beers', 'with_front' => false, 'feeds' => true, 'pages' => true),
-			'supports'      	=> array( 'title', 'editor', 'thumbnail', 'revisions', 'comments'),
+			'labels'        		=> $labels,
+			'description'   		=> 'Holds beer-related data',
+			'public'        		=> true,
+			'publicly_queryable'	=> true,
+			'show_ui' 				=> true,
+			'query_var' 			=> true,
+			'capability_type' 		=> 'post',
+			'hierarchical' 			=> false,
+			'taxonomies'			=> array('beerlog_style', 'beerlog_brewery'),
+			'has_archive' 			=> true,
+			'menu_position' 		=> 8,
+			'menu_icon'				=> BEERLOG_DIR_URL . 'assets/img/icons/beer.png',
+			// 'rewrite' 			=> array( 'slug' => 'beers', 'with_front' => false, 'feeds' => true, 'pages' => true),
+			'rewrite' 				=> array( 'slug' => 'beers' ),
+			'supports'      		=> array( 'title', 'editor', 'thumbnail', 'revisions', 'comments'),
 		);
 
 		register_post_type( 'beerlog_beer', $args );
@@ -128,7 +139,6 @@ class Init
 			'public'        	=> true,
 			'capability_type' 	=> 'post',
 			'hierarchical' 		=> false,
-			'taxonomies'		=> array('beerlog_style', 'beerlog_brewery'),
 			'has-archive' 		=> true,
 			'show_in_menu'  	=> 'edit.php?post_type=beerlog_beer',
 			'rewrite' 			=> array( 'slug' => 'breweries', 'with_front' => false, 'feeds' => true, 'pages' => true),
@@ -136,6 +146,81 @@ class Init
 		);
 
 		register_post_type( 'beerlog_brewery', $args );
+	}
+
+	public static function initBeerCustomTaxonomies()
+	{
+		$labels = array(
+			'name' 				=> __( 'Styles', 'beerlog' ),
+			'singular_name' 	=> __( 'Style', 'beerlog' ),
+			'search_items' 		=> __( 'Search Beer Styles', 'beerlog' ),
+			'all_items' 		=> __( 'All Styles' ),
+			'parent_item' 		=> __( 'Parent Style', 'beerlog' ),
+			'parent_item_colon' => __( 'Parent Style:', 'beerlog' ),
+			'edit_item' 		=> __( 'Edit Style', 'beerlog' ),
+			'update_item' 		=> __( 'Update Style' ),
+			'add_new_item' 		=> __( 'Add New Style' ),
+			'new_item_name' 	=> __( 'New Style Name' ),
+			'menu_name' 		=> __( 'Beer Styles' ),
+		);
+
+		$args = array(
+			'hierarchical' 	=> true,
+			'labels' 		=> $labels,
+			'rewrite' => array(
+	      		'slug' 			=> 'styles', // This controls the base slug that will display before each term
+	      		'with_front' 	=> false, // Don't display the category base before "/styles/"
+	      		'hierarchical' 	=> true // This will allow URL's like "/styles/lager/pilsner/"
+	      	),
+		);
+
+		register_taxonomy( 'beerlog_style', 'beerlog_beer', $args );
+		register_taxonomy_for_object_type( 'beerlog_style', 'beerlog_beer' );
+	}
+
+	public static function initBeerStyles()
+	{
+		if ( get_option('beerlog_styles_loaded') != 'true')
+		{
+			$stylesFile = BEERLOG_BASEDIR . '/assets/beer-styles.json';
+			if ( is_readable( $stylesFile ) )
+			{
+				$json 	= trim( file_get_contents( $stylesFile ) );
+				var_dump( $json );
+				$styles = json_decode( $json );
+				var_dump( $styles );
+				if ( is_array( $styles ) )
+				{
+					self::insertStylesTerms( $styles );
+					add_option('beerlog_styles_loaded', 'true');
+				}
+			}
+		}
+	}
+
+	public static function insertStylesTerms( $styles, $parentId = 0, $taxonomy = 'beerlog_style' )
+	{
+		foreach( $styles as $style )
+		{
+			if ( $term = get_term_by( 'slug', $style->slug, $taxonomy ) )
+			{
+				wp_delete_term( (int) $term->term_id, $taxonomy );
+			}
+
+			$result = wp_insert_term(
+				$style->name,
+				$taxonomy,
+				array(
+					'parent'	=> $parentId,
+					'slug' 		=> $style->slug,
+				)
+			);
+
+			if ( $result && isset( $style->children ) && count( $style->children ) )
+			{
+				self::insertStylesTerms( $style->children, $result['term_id'] );
+			}
+		}
 	}
 
 	public static function initBeerEditMeta()
