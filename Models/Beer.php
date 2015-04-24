@@ -64,7 +64,7 @@ EOSQL;
 		if ( !function_exists('get_post_meta') )
 			throw new Exception( "WP not initialized - function 'get_post_meta' doea not exist!" );
 
-		$meta = get_post_meta( $this->_post->ID, '_beerlog_meta_abv', $single );
+		$meta = get_post_meta( $this->_post->ID, $metaName, $single );
 
 		return $escHtml ? esc_html( $meta ) : $meta;
 	}

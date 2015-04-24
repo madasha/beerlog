@@ -12,9 +12,9 @@ get_header(); ?>
 
 		<?php if ( have_posts() ) : ?>
 
-			<table cellspacing="0" cellpadding="0" style="width: 80%">
+			<table cellspacing="0" cellpadding="0" style="width: 90%">
 				<tr>
-					<th width="120px"></th>
+					<th width="120px">Pic</th>
 					<th><?php _e('Beer', 'beerlog'); ?></th>
 					<th width="20%"><?php _e('Style(s)', 'beerlog'); ?></th>
 					<th width="20%"><?php _e('Alcohol', 'beerlog'); ?></th>
