@@ -13,8 +13,7 @@ class Installer
 	public static function install()
 	{
 		// Check for DB and create tables if necessary (sssentially check if the most rudimentary table: 'beers' is there)
-		if ( !self::_db_table_exist( 'beers' ) )
-			self::_create_db_tables();
+		self::_create_db_tables();
 
 		// TODO: Options get set here
 	}
@@ -49,7 +48,7 @@ class Installer
 				if ( in_array( 'Beerlog\\Interfaces\\ModelClass', class_implements( $className ) ) )
 				{
 					$tableName = $className::gettableName();
-					if ( !self::_db_table_exist( $tableName ) )
+					if ( !self::_db_table_exist( $tableName ) && method_exists( $className, 'getCreateTableSql' ) )
 					{
 						$createSql = $className::getCreateTableSql( $wpdb->prefix . self::BEERLOG_DB_PREFIX )
 							. $wpdb->get_charset_collate();
