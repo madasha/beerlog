@@ -44,10 +44,6 @@ class Init
 		self::initBeerCustomTaxonomies();
 		self::initBeerStyles();
 		self::initBeerViewTemplates();
-
-		// echo "Styles:\n";
-		// var_dump( get_terms( 'beerlog_style' ) );
-		// exit;
 	}
 
 	private static function _getController( $controllerName )
@@ -186,9 +182,7 @@ class Init
 			if ( is_readable( $stylesFile ) )
 			{
 				$json 	= trim( file_get_contents( $stylesFile ) );
-				var_dump( $json );
 				$styles = json_decode( $json );
-				var_dump( $styles );
 				if ( is_array( $styles ) )
 				{
 					self::insertStylesTerms( $styles );
