@@ -12,9 +12,9 @@ get_header(); ?>
 
 		<?php if ( have_posts() ) : ?>
 
-			<table cellspacing="0" cellpadding="0" style="width: 90%">
+			<table cellspacing="0" cellpadding="0" style="width: 80%; text-align: center">
 				<tr>
-					<th width="120px">Pic</th>
+					<th width="120px"></th>
 					<th><?php _e('Beer', 'beerlog'); ?></th>
 					<th width="20%"><?php _e('Style(s)', 'beerlog'); ?></th>
 					<th width="20%"><?php _e('Alcohol', 'beerlog'); ?></th>
@@ -61,5 +61,4 @@ get_header(); ?>
 		</div><!-- #content -->
 	</div><!-- #primary -->
 
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

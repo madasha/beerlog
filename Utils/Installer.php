@@ -45,6 +45,7 @@ class Installer
 			{
 				$className = 'Beerlog\\Models\\' . $matches['class'];
 
+				// TODO: Refactor this, remove interface, base check on Abstract class extension, check separate models for such function, execute only if present
 				if ( in_array( 'Beerlog\\Interfaces\\ModelClass', class_implements( $className ) ) )
 				{
 					$tableName = $className::gettableName();
