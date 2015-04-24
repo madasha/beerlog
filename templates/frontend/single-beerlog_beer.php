@@ -4,6 +4,7 @@
   */
 
 // TODO: Beautify, render good meta (beer graph), location
+defined( 'ABSPATH' ) or die( 'U\'r playing with powers you do not fully understand!' );
 
 get_header(); ?>
 

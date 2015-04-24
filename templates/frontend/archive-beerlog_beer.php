@@ -4,6 +4,7 @@
  *
  * @package Beerlog
  */
+defined( 'ABSPATH' ) or die( 'U\'r playing with powers you do not fully understand!' );
 
 get_header(); ?>
 
