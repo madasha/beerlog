@@ -182,7 +182,7 @@ class Init
 				)
 			);
 
-			if ( $result && isset( $style->children ) && count( $style->children ) )
+			if ( $result && $result['term_id'] && isset( $style->children ) && count( $style->children ) )
 			{
 				self::insertStylesTerms( $style->children, $result['term_id'] );
 			}
