@@ -5,14 +5,20 @@
  */
 class BeerlogInstallationTest extends PHPUnit_Framework_TestCase {
 
-	private static $_tablesToCheck = array( 'breweries' );
+	private static $_tablesToCheck 	= array( 'breweries' );
+	private static $_pluginOptions  = array( 'beerlog_styles_loaded' );
 
 	public function setUp()
 	{
-		delete_option('beerlog_styles_loaded'); // Just in case
 	}
 
 	public function tearDown()
+	{
+		foreach( self::$_pluginOptions as $option )
+			delete_option( $option );
+	}
+
+	public function _deletePluginTables()
 	{
 		global $wpdb;
 
@@ -22,8 +28,6 @@ class BeerlogInstallationTest extends PHPUnit_Framework_TestCase {
 			$tableName = $wpdb->prefix . \Beerlog\Utils\Installer::BEERLOG_DB_PREFIX . $tableName;
 			$wpdb->query( "DROP TABLE IF EXISTS `$tableName`" );
 		}
-
-		delete_option('beerlog_styles_loaded');
 	}
 
 	public function test_getModelClasses()
@@ -48,6 +52,9 @@ class BeerlogInstallationTest extends PHPUnit_Framework_TestCase {
 			$tableName = $wpdb->prefix . \Beerlog\Utils\Installer::BEERLOG_DB_PREFIX . $tableName;
 			$this->assertEquals( $tableName, $wpdb->get_var("SHOW TABLES LIKE '$tableName'") );
 		}
+
+		// Clean the mess after the test
+		$this->_deletePluginTables();
 	}
 }
 
