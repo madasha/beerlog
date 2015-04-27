@@ -7,7 +7,7 @@ class Brewery implements \Beerlog\Interfaces\ModelClass
 
 	private static $_createSql = <<<EOSQL
 CREATE TABLE ___TABLENAME___ (
-  id mediumint(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+  brewery_id mediumint(9) UNSIGNED NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   owner_brewery_id mediumint(9) UNSIGNED NOT NULL DEFAULT 0,
   description text,
@@ -17,7 +17,7 @@ CREATE TABLE ___TABLENAME___ (
   address_city tinytext,
   address_zip varchar(20),
   added timestamp NOT NULL,
-  PRIMARY KEY  id (id),
+  PRIMARY KEY  brewery_id (brewery_id),
   KEY owner_brewery_id (owner_brewery_id)
 )
 EOSQL;

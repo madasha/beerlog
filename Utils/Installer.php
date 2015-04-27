@@ -13,50 +13,74 @@ class Installer
 	public static function install()
 	{
 		// Check for DB and create tables if necessary (sssentially check if the most rudimentary table: 'beers' is there)
-		self::_create_db_tables();
+		self::_createDbTables();
 
-		// TODO: Options get set here
+		// Any options to set?
+		self::_setInitialOptions();
 	}
 
-	/**
-	 * Asserts if a DB table which this plugin uses already exists.
-	 *
-	 * @return boolean
-	 */
-	private static function _db_table_exist( $table )
+	public static function uninstall()
 	{
-		global $wpdb;
-		$tableName = $wpdb->prefix . self::BEERLOG_DB_PREFIX . $table;
-
-		return $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $tableName;
+		self::_dropDbTables();
 	}
 
-	private static function _create_db_tables()
+	private static function _createDbTables()
 	{
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
+		$modelClasses = self::getModelClasses();
+		foreach ( $modelClasses as $className )
+		{
+			$tableName = $className::gettableName();
+			if ( method_exists( $className, 'getCreateTableSql' ) )
+			{
+				$createSql = $className::getCreateTableSql( $wpdb->prefix . self::BEERLOG_DB_PREFIX )
+					. $wpdb->get_charset_collate();
+
+				$result = dbDelta( $createSql );
+				// var_dump( $createSql, $result );
+				// exit;
+			}
+		}
+	}
+
+	private static function _dropDbTables()
+	{
+		global $wpdb;
+
+		$modelClasses = self::getModelClasses();
+		foreach ( $modelClasses as $className )
+		{
+			$tableName = $className::gettableName();
+			$wpdb->query( "DROP TABLE `$tableName`" );
+		}
+	}
+
+	public static function getModelClasses()
+	{
 		$modelsDir = dir( BEERLOG_BASEDIR . '/Models' );
 
+		$modelClasses = array();
 		while ( false !== ( $entry = $modelsDir->read() ) )
 		{
 			if ( preg_match( '/^(?P<class>[\w_]+)\.php$/', $entry, $matches ) )
 			{
 				$className = 'Beerlog\\Models\\' . $matches['class'];
 
-				// TODO: Refactor this, remove interface, base check on Abstract class extension, check separate models for such function, execute only if present
 				if ( in_array( 'Beerlog\\Interfaces\\ModelClass', class_implements( $className ) ) )
 				{
-					$tableName = $className::gettableName();
-					if ( !self::_db_table_exist( $tableName ) && method_exists( $className, 'getCreateTableSql' ) )
-					{
-						$createSql = $className::getCreateTableSql( $wpdb->prefix . self::BEERLOG_DB_PREFIX )
-							. $wpdb->get_charset_collate();
-
-						dbDelta( $createSql );
-					}
+					$modelClasses[] = $className;
 				}
 			}
 		}
+
+		return $modelClasses;
+	}
+
+	private static function _setInitialOptions()
+	{
+		// This forces the beer styles terms generation, adds the option if it does not exist
+		update_option( 'beerlog_styles_loaded', 'false' );
 	}
 }
