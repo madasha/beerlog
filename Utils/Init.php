@@ -32,6 +32,20 @@ class Init
 	    'linger'      => 1,
 	);
 
+	public static $styleTaxLabels = array(
+		'name' 				=> 'Styles',
+		'singular_name' 	=> 'Style',
+		'search_items' 		=> 'Search Beer Styles',
+		'all_items' 		=> 'All Styles',
+		'parent_item' 		=> 'Parent Style',
+		'parent_item_colon' => 'Parent Style:',
+		'edit_item' 		=> 'Edit Style',
+		'update_item' 		=> 'Update Style',
+		'add_new_item' 		=> 'Add New Style',
+		'new_item_name' 	=> 'New Style Name',
+		'menu_name' 		=> 'Beer Styles',
+	);
+
 	private static $_controllers = array();
 	private static $_stylesLoaded = false;
 
@@ -77,7 +91,7 @@ class Init
 	public static function initBeerPostType()
 	{
 		$args 						= \Beerlog\Models\Beer::getPostTypeProperties();
-		$args['labels']        		= \Beerlog\Models\Beer::getPostTypeLabels();
+		$args['labels']        		= self::convertArrayToI18n( \Beerlog\Models\Beer::getPostTypeLabels() );
 		$args['menu_position'] 		= 8;
 		$args['menu_icon']			= BEERLOG_DIR_URL . 'assets/img/icons/beer.png';
 		$args['rewrite'] 			= array( 'slug' => 'beers', 'with_front' => false, 'feeds' => true, 'pages' => true );
@@ -122,21 +136,8 @@ class Init
 
 	public static function initBeerCustomTaxonomies()
 	{
-		$labels = array(
-			'name' 				=> __( 'Styles', 'beerlog' ),
-			'singular_name' 	=> __( 'Style', 'beerlog' ),
-			'search_items' 		=> __( 'Search Beer Styles', 'beerlog' ),
-			'all_items' 		=> __( 'All Styles' ),
-			'parent_item' 		=> __( 'Parent Style', 'beerlog' ),
-			'parent_item_colon' => __( 'Parent Style:', 'beerlog' ),
-			'edit_item' 		=> __( 'Edit Style', 'beerlog' ),
-			'update_item' 		=> __( 'Update Style' ),
-			'add_new_item' 		=> __( 'Add New Style' ),
-			'new_item_name' 	=> __( 'New Style Name' ),
-			'menu_name' 		=> __( 'Beer Styles' ),
-		);
-
-		$args = array(
+		$labels = self::convertArrayToI18n( self::$styleTaxLabels );
+		$args 	= array(
 			'hierarchical' 	=> true,
 			'labels' 		=> $labels,
 			'rewrite' => array(
@@ -148,6 +149,17 @@ class Init
 
 		register_taxonomy( 'beerlog_style', 'beerlog_beer', $args );
 		register_taxonomy_for_object_type( 'beerlog_style', 'beerlog_beer' );
+	}
+
+	public static function convertArrayToI18n( $arr, $textDomain = 'beerlog' )
+	{
+		$converted = array();
+		foreach ( $arr as $key => $value )
+		{
+			$converted[ $key ]	= __( $value, $textDomain );
+		}
+
+		return $converted;
 	}
 
 	public static function initBeerStyles()

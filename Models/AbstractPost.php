@@ -46,13 +46,7 @@ class AbstractPost
 
 	public static function getPostTypeLabels()
 	{
-		$labels = array();
-		foreach ( static::$_postTypeLabels as $key => $value )
-		{
-			$labels[ $key ]	= __( $value, 'beerlog' );
-		}
-
-		return $labels;
+		return static::$_postTypeLabels;
 	}
 
 	public static function getPostTypeProperties()
