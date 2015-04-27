@@ -32,15 +32,13 @@ class Installer
 		$modelClasses = self::getModelClasses();
 		foreach ( $modelClasses as $className )
 		{
-			$tableName = $className::gettableName();
-			if ( method_exists( $className, 'getCreateTableSql' ) )
+			$tableName = $className::getTableName();
+			if ( !self::_dbTableExits( $tableName ) && method_exists( $className, 'getCreateTableSql' ) )
 			{
 				$createSql = $className::getCreateTableSql( $wpdb->prefix . self::BEERLOG_DB_PREFIX )
 					. $wpdb->get_charset_collate();
 
 				$result = dbDelta( $createSql );
-				// var_dump( $createSql, $result );
-				// exit;
 			}
 		}
 	}
@@ -52,9 +50,24 @@ class Installer
 		$modelClasses = self::getModelClasses();
 		foreach ( $modelClasses as $className )
 		{
-			$tableName = $className::gettableName();
+			$tableName = self::_getFullTableName( $className::gettableName() );
 			$wpdb->query( "DROP TABLE `$tableName`" );
 		}
+	}
+
+	private static function _getFullTableName( $tableName )
+	{
+		global $wpdb;
+
+		return $wpdb->prefix . self::BEERLOG_DB_PREFIX . $tableName;
+	}
+
+	private static function _dbTableExits( $tableName )
+	{
+		global $wpdb;
+
+		$tableName = self::_getFullTableName( $tableName );
+		return $tableName == $wpdb->get_var("SHOW TABLES LIKE '$tableName'");
 	}
 
 	public static function getModelClasses()
