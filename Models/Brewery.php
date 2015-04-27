@@ -1,7 +1,7 @@
 <?php
 namespace Beerlog\Models;
 
-class Brewery implements \Beerlog\Interfaces\ModelClass
+class Brewery implements \Beerlog\Interfaces\DbModelIface
 {
 	private static $_tableName = 'breweries';
 

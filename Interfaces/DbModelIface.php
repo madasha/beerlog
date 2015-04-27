@@ -1,7 +1,7 @@
 <?php
 namespace Beerlog\Interfaces;
 
-interface ModelClass
+interface DbModelIface
 {
 	public static function getCreateTableSql( $prefix );
 

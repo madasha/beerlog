@@ -81,7 +81,7 @@ class Installer
 			{
 				$className = 'Beerlog\\Models\\' . $matches['class'];
 
-				if ( in_array( 'Beerlog\\Interfaces\\ModelClass', class_implements( $className ) ) )
+				if ( in_array( 'Beerlog\\Interfaces\\DbModelIface', class_implements( $className ) ) )
 				{
 					$modelClasses[] = $className;
 				}
