@@ -148,6 +148,7 @@ class Init
 
 	public static function initBeerStyles()
 	{
+		// TODO: Compare file checksum against stored value in options to determine if it needs rebuild
 		if ( get_option('beerlog_styles_loaded') != 'true')
 		{
 			$stylesFile = BEERLOG_BASEDIR . '/assets/beer-styles.json';

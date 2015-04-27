@@ -25,9 +25,70 @@
 				"children": []
 			},
 			{
-				"name": "German Ale",
-				"slug": "german-ale",
-				"children": []
+				"name": "German Ales",
+				"slug": "german-ales",
+				"children": [
+					{
+						"name": "Altbier",
+						"slug": "altbier"
+					},
+					{
+						"name": "Berliner Weissbier",
+						"slug": "berliner-weiss"
+					},
+					{
+						"name": "Dunkelweizen",
+						"slug": "Dunkelweizen"
+					},
+					{
+						"name": "Gose",
+						"slug": "Gose"
+					},
+					{
+						"name": "Hefeweizen",
+						"slug": "Hefeweizen"
+					},
+					{
+						"name": "Kölsch",
+						"slug": "kolsch"
+					},
+					{
+						"name": "Kristalweizen",
+						"slug": "Kristalweizen"
+					},
+					{
+						"name": "Roggenbier",
+						"slug": "Roggenbier"
+					},
+					{
+						"name": "Weizenbock",
+						"slug": "Weizenbock"
+					}
+				]
+			},
+			{
+				"name": "Irish Ales",
+				"slug": "irish-ales",
+				"children": [
+					{
+						"name": "Irish Dry Stout",
+						"slug": "irish-dry-stout"
+					},
+					{
+						"name": "Irish Red Ale",
+						"slug": "irish-red-ale"
+					}
+				]
+			},
+			{
+				"name": "Russian Ales",
+				"slug": "Russian Ales",
+				"children": [
+					{
+						"name": "Kvass",
+						"slug": "kvass"
+					}
+				]
 			}
 		]
 	},
