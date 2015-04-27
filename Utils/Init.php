@@ -72,22 +72,6 @@ class Init
 		return self::$_controllers[ $controllerName ];
 	}
 
-	/**
-	 * Not used anymore since initBeerPostType & initBreweryPostType do the job
-	 * @deprecated
-	 */
-	public function addBeerMenus()
-	{
-		$adminController = self::_getController( 'Admin' );
-		add_menu_page( 'Beer list', 'Biers', 'manage_options',
-			'edit.php?post_type=beerlog_beer', '',
-			BEERLOG_DIR_URL . 'assets/img/icons/beer.png', 8
-		);
-		// add_submenu_page( 'edit.php?post_type=beerlog_beer', 'Breweries', 'Breweries',
-			// 'manage_options', 'edit.php?post_type=beerlog_brewery'
-		// );
-	}
-
 	public static function initBeerPostType()
 	{
 		$args 						= \Beerlog\Models\Beer::getPostTypeProperties();
