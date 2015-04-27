@@ -5,6 +5,9 @@ class AbstractPost
 {
 	protected $_post;
 
+	protected static $_postTypeLabels 		= array();
+	protected static $_postTypeProperties 	= array();
+
 	public function __construct( $post )
 	{
 		$this->setPost( $post );
@@ -39,5 +42,21 @@ class AbstractPost
 		$meta = get_post_meta( $this->_post->ID, $metaName, $single );
 
 		return $escHtml ? esc_html( $meta ) : $meta;
+	}
+
+	public static function getPostTypeLabels()
+	{
+		$labels = array();
+		foreach ( static::$_postTypeLabels as $key => $value )
+		{
+			$labels[ $key ]	= __( $value, 'beerlog' );
+		}
+
+		return $labels;
+	}
+
+	public static function getPostTypeProperties()
+	{
+		return static::$_postTypeProperties;
 	}
 }

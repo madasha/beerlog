@@ -38,7 +38,7 @@ class Init
 	public static function initAll()
 	{
 		self::initBeerPostType();
-		self::initBreweryPostType();
+		// self::initBreweryPostType();
 		self::initBeerEditMeta();
 		self::initBeerSaveMeta();
 		self::initBeerCustomTaxonomies();
@@ -76,42 +76,17 @@ class Init
 
 	public static function initBeerPostType()
 	{
-		$labels = array(
-			'name'               => __( 'Beers', 'beerlog' ),
-			'singular_name'      => __( 'Beer', 'beerlog' ),
-			'add_new'            => __( 'Add New Beer', 'beerlog' ),
-			'add_new_item'       => __( 'Add New Beer', 'beerlog' ),
-			'edit_item'          => __( 'Edit Beer', 'beerlog' ),
-			'new_item'           => __( 'New Beer', 'beerlog' ),
-			'all_items'          => __( 'Beer List', 'beerlog' ),
-			'view_item'          => __( 'View Beer', 'beerlog'),
-			'search_items'       => __( 'Search for beers', 'beerlog' ),
-			'not_found'          => __( 'No beers found', 'beerlog' ),
-			'not_found_in_trash' => __( 'No beers found in the Trash', 'beerlog' ),
-			'menu_name'          => __( 'Beers', 'beerlog' )
-		);
-
-		$args = array(
-			'labels'        		=> $labels,
-			'description'   		=> 'Holds beer-related data',
-			'public'        		=> true,
-			'publicly_queryable'	=> true,
-			'show_ui' 				=> true,
-			'query_var' 			=> true,
-			'capability_type' 		=> 'post',
-			'hierarchical' 			=> false,
-			'taxonomies'			=> array('beerlog_style', 'beerlog_brewery'),
-			'has_archive' 			=> true,
-			'menu_position' 		=> 8,
-			'menu_icon'				=> BEERLOG_DIR_URL . 'assets/img/icons/beer.png',
-			// 'rewrite' 			=> array( 'slug' => 'beers', 'with_front' => false, 'feeds' => true, 'pages' => true),
-			'rewrite' 				=> array( 'slug' => 'beers' ),
-			'supports'      		=> array( 'title', 'editor', 'thumbnail', 'revisions', 'comments'),
-		);
+		$args 						= \Beerlog\Models\Beer::getPostTypeProperties();
+		$args['labels']        		= \Beerlog\Models\Beer::getPostTypeLabels();
+		$args['menu_position'] 		= 8;
+		$args['menu_icon']			= BEERLOG_DIR_URL . 'assets/img/icons/beer.png';
+		$args['rewrite'] 			= array( 'slug' => 'beers', 'with_front' => false, 'feeds' => true, 'pages' => true );
+		$args['supports']      		= array( 'title', 'editor', 'thumbnail', 'revisions', 'comments' );
 
 		register_post_type( 'beerlog_beer', $args );
 	}
 
+	/*
 	public static function initBreweryPostType()
 	{
 		$labels = array(
@@ -143,6 +118,7 @@ class Init
 
 		register_post_type( 'beerlog_brewery', $args );
 	}
+	*/
 
 	public static function initBeerCustomTaxonomies()
 	{
