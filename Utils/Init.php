@@ -160,6 +160,7 @@ class Init
 				if ( is_array( $styles ) )
 				{
 					self::insertStylesTerms( $styles );
+					delete_option("beerlog_style_children");
 					update_option('beerlog_styles_loaded', 'true');
 				}
 			}

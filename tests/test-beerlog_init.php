@@ -58,8 +58,9 @@ class BeerlogInitTest extends WP_UnitTestCase
 			$this->assertEquals( $value, $actualLabels[ $label ] );
 	}
 
-	public function test_stylesJsonIsOk()
+	public function test_stylesJsonAndTermsOk()
 	{
+		// Assert beer styles file is present, readable and json-parsable
 		$stylesFile = BEERLOG_BASEDIR . '/assets/beer-styles.json';
 		$this->assertTrue( is_readable( $stylesFile ) );
 
@@ -68,47 +69,39 @@ class BeerlogInitTest extends WP_UnitTestCase
 
 		$styles = json_decode( $json );
 		$this->assertNotEquals( null, $styles );
-	}
 
-	public function ttest_insertStylesTerms()
-	{
-		// TODO: Use faker to fake names of beer styles! I'd be cool!
-		$testTax = 'beerlog_testtax';
-		register_taxonomy( $testTax, 'post' );
-
-		$testTerms = array();
-		$testTerms[0] = new stdClass();
-		$testTerms[0]->name = 'Parent Style 1';
-		$testTerms[0]->slug = 'parent_1';
-		$testTerms[0]->children = array();
-
-		$testTerms[0]->children[0] = new stdClass();
-		$testTerms[0]->children[0]->name = "Child Style 1.1";
-		$testTerms[0]->children[0]->slug = "child_1.1";
-
-		$testTerms[0]->children[1] = new stdClass();
-		$testTerms[0]->children[1]->name = "Child Stye 1.2";
-		$testTerms[0]->children[1]->slug = "child_1.2";
-
-		$testTerms[1] = new stdClass();
-		$testTerms[1]->name = 'Parent Style 2';
-		$testTerms[1]->slug = 'parent_2';
-		$testTerms[1]->children = array();
-
-		$testTerms[1]->children[1] = new stdClass();
-		$testTerms[1]->children[1]->name = "Child Style 2.1";
-		$testTerms[1]->children[1]->slug = "child_2.1";
-
-		\Beerlog\Utils\Init::insertStylesTerms( $testTerms );
-		$terms = get_terms( $testTax, array( 'hierarchical' => true ) );
-		var_dump( $terms );
-		// exit;
-
-	}
-
-	// TODO: Assert beer style terms registered, delete option first ??
-	public function test_initBeerStyles()
-	{
 		// Assert beer styles are loaded
+		$terms = get_terms( 'beerlog_style', array( 'hide_empty' => 0, 'hierarchical' => true ) );
+		$this->assertTrue( is_array( $terms ) );
+		$this->assertTrue( !empty( $terms ) );
+
+		// Assert they are the same count
+		$stylesFlat = self::_getFlatArrayFromStyles( $styles );
+		$this->assertEquals( count( $stylesFlat ), count( $terms ), "Terms count does not match styles file" );
+
+		// TODO: Assert parental hierarchy
+	}
+
+	private static function _getFlatArrayFromStyles( $styles )
+	{
+    	$return = array();
+
+    	foreach ( $styles as $style )
+    	{
+    		$styleClone 	= clone $style;
+    		$styleChildren 	= false;
+    		if ( isset( $styleClone->children ) )
+    		{
+    			$styleChildren = $styleClone->children;
+    			unset( $styleClone->children );
+    		}
+
+    		$return[] = (array) $styleClone;
+
+    		if ( $styleChildren )
+    			$return = array_merge( $return, self::_getFlatArrayFromStyles( $styleChildren ) );
+    	}
+
+    	return $return;
 	}
 }
