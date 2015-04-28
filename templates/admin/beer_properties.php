@@ -31,7 +31,7 @@ foreach ( $propsPro as $propName => $propValue )
 				</p>
 			    <p>
 			    	<label for="beerlog_meta_style"><strong><?php _e('IBU: ', 'beerlog'); ?></strong></label>
-					<input type="number" name="beerlog_meta[ibu]" id="beerlog_meta_style"
+					<input type="number" name="beerlog_meta[ibu]" id="beerlog_meta_ibu"
 					min="0" max="100" step="1" value="<?php echo get_post_meta( $post->ID, '_beerlog_meta_ibu', true ); ?>" />
 				</p>
 				<hr />

@@ -83,15 +83,13 @@ class Admin
 	{
 		global $post;
 
-		$beerEntity = get_post_custom( $post->ID );
-
 		// We'll use this nonce field later on when saving.
 		wp_nonce_field( self::$_metaNonceAction, self::$_metaNonceField );
 
-		echo $this->renderBeerPropertiesEdit( $beerEntity, $post );
+		echo $this->renderBeerPropertiesEdit( $post );
 	}
 
-	public function renderBeerPropertiesEdit( $beerEntity, $post )
+	public function renderBeerPropertiesEdit( $post )
 	{
 		include $this->_pluginBaseDir . 'templates/admin/beer_properties.php';
 	}
