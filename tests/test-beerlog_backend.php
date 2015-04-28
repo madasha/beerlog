@@ -13,6 +13,7 @@ class BeerlogBackendTest extends WP_UnitTestCase
 			'abv' => rand( 2, 15 ),
 			'ibu' => rand( 8, 60 ),
 		);
+		// TODO: Add all the other meta props
 
 		// Set some meta
 		foreach ( $expValues as $metaName => $metaValue )
