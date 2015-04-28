@@ -13,23 +13,6 @@ class Admin
 		$this->_pluginBaseDir = plugin_dir_path( dirname( __FILE__ ) );
 	}
 
-	// Not used, custom post data used instead
-	public function renderBeersList()
-	{
-		include $this->_pluginBaseDir . 'templates/admin/beers_list.php';
-	}
-
-	// Not used, custom post data used instead
-	public function renderBreweries()
-	{
-		include $this->_pluginBaseDir . 'templates/admin/breweries.php';
-	}
-
-	public function renderBeerPropertiesEdit( $beerEntity, $post )
-	{
-		include $this->_pluginBaseDir . 'templates/admin/beer_properties.php';
-	}
-
 	/**
 	 * Save the meta when the post is saved.
 	 *
@@ -106,5 +89,10 @@ class Admin
 		wp_nonce_field( self::$_metaNonceAction, self::$_metaNonceField );
 
 		echo $this->renderBeerPropertiesEdit( $beerEntity, $post );
+	}
+
+	public function renderBeerPropertiesEdit( $beerEntity, $post )
+	{
+		include $this->_pluginBaseDir . 'templates/admin/beer_properties.php';
 	}
 }
