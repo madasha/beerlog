@@ -156,10 +156,11 @@ class Init
 			{
 				$json 	= trim( file_get_contents( $stylesFile ) );
 				$styles = json_decode( $json );
+
 				if ( is_array( $styles ) )
 				{
 					self::insertStylesTerms( $styles );
-					add_option('beerlog_styles_loaded', 'true');
+					update_option('beerlog_styles_loaded', 'true');
 				}
 			}
 		}
@@ -171,17 +172,27 @@ class Init
 		{
 			if ( $term = get_term_by( 'slug', $style->slug, $taxonomy ) )
 			{
-				wp_delete_term( (int) $term->term_id, $taxonomy );
+				$result = wp_update_term(
+					$term->term_id,
+					$taxonomy,
+					array(
+						'name'		=> $style->name,
+						'slug' 		=> $style->slug,
+						'parent'	=> $parentId,
+					)
+				);
 			}
-
-			$result = wp_insert_term(
-				$style->name,
-				$taxonomy,
-				array(
-					'parent'	=> $parentId,
-					'slug' 		=> $style->slug,
-				)
-			);
+			else
+			{
+				$result = wp_insert_term(
+					$style->name,
+					$taxonomy,
+					array(
+						'slug' 		=> $style->slug,
+						'parent'	=> $parentId,
+					)
+				);
+			}
 
 			if ( $result && $result['term_id'] && isset( $style->children ) && count( $style->children ) )
 			{

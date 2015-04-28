@@ -70,9 +70,11 @@ class BeerlogInitTest extends WP_UnitTestCase
 		$this->assertNotEquals( null, $styles );
 	}
 
-	public function test_insertStylesTerms()
+	public function ttest_insertStylesTerms()
 	{
 		// TODO: Use faker to fake names of beer styles! I'd be cool!
+		$testTax = 'beerlog_testtax';
+		register_taxonomy( $testTax, 'post' );
 
 		$testTerms = array();
 		$testTerms[0] = new stdClass();
@@ -98,7 +100,7 @@ class BeerlogInitTest extends WP_UnitTestCase
 		$testTerms[1]->children[1]->slug = "child_2.1";
 
 		\Beerlog\Utils\Init::insertStylesTerms( $testTerms );
-		$terms = get_terms( 'beerlog_style', array( 'hierarchical' => true ) );
+		$terms = get_terms( $testTax, array( 'hierarchical' => true ) );
 		var_dump( $terms );
 		// exit;
 
