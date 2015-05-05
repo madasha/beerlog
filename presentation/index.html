@@ -63,14 +63,17 @@
 					</ul>
 				</section>
 
-				<section data-background="#333333">
+				<section>
 					<h2>Why test?</h2>
-					<img class="fragment" style="border: none" src="img/funny/tests-disturbing.jpg" />
+				</section>
+
+				<section data-background="#333333">
+					<img style="border: none" src="img/funny/tests-disturbing.jpg" />
 				</section>
 
 				<section >
 					<h2>1. We are not perfect</h2>
-					<img style="border: none" src="img/funny/teamwork_hammering.gif" />
+					<p>{put a picture of an imperfect guy here}</p>
 				</section>
 
 				<section>
@@ -80,8 +83,12 @@
 
 				<section>
 					<h2>3. Codex says so</h2>
-					<blockquote cite="https://codex.wordpress.org/Writing_a_Plugin#Updating_Your_Plugin" style="text-align: left">
-					When you're ready to release a new version of the Plugin... Make sure everything is committed and the new version <strong style="color: #773333">actually works</strong>. Pay attention to all WordPress versions your Plugin supports and try to test it with all of them. <strong  style="color: #773333">Don't just test the new features; also make sure you didn't accidentally break some older functionality of the Plugin</strong>.
+					<blockquote cite="https://codex.wordpress.org/Writing_a_Plugin#Updating_Your_Plugin" style="text-align: left; width: 100%; font-size: 80%">
+					When you're ready to release a new version of the Plugin... Make sure everything is committed and the new version <strong style="color: #773333">actually works</strong></strong>.
+					</blockquote>
+
+					<blockquote cite="https://codex.wordpress.org/Writing_a_Plugin#Updating_Your_Plugin" style="text-align: left; width: 100%; font-size: 80%">
+					Pay attention to all WordPress versions your Plugin supports and try to test it with all of them. <strong  style="color: #773333">Don't just test the new features; also make sure you didn't accidentally break some older functionality of the Plugin</strong>.
 					</blockquote>
 
 					<span style=" font-size: 80%"><a href="https://codex.wordpress.org/Writing_a_Plugin#Updating_Your_Plugin">codex.wordpress.org/Writing_a_Plugin</a></span>
@@ -95,7 +102,264 @@
 					</ul>
 				</section>
 
+				<section>
+					<h2>The Tools</h2>
+					<div>
+						<div style="float: left; padding-left: 50px">
+							<a href="http://phpunit.de"><img src="img/php-unit-logo.jpg" alt="PHPUnit" /></a>
+							<p>By <a href="http://sebastian-bergmann.de">Sebastian Bergmann</a></p>
+						</div>
+						<div style="float: right; padding-right: 50px">
+							<img src="img/wp-cli.jpg" alt="wp-cli" />
+						</div>
+						<div style="clear: both"></div>
+					</div>
+					<aside class="notes">
+						- Mention Sebastian Bergmann
+					</aside>
+				</section>
 
+				<section>
+					<h2>Prerequisites:</h2>
+					<ul>
+						<li>php 5.3+</li>
+						<li>linux or mac OS (uses /tmp)</li>
+						<li>mysql</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Installation: PHPUnit</h2>
+					<h4>linux:</h2>
+					<pre><code data-trim class="bash">
+wget http://phpunit.de/phpunit.phar
+chmod a+x phpunit.phar
+sudo cp phpunit.phar /usr/local/bin/phpunit
+					</code></pre>
+
+					<h4>mac:</h2>
+					<pre><code data-trim class="bash">
+wget http://phpunit.de/phpunit.phar
+chmod a+x phpunit.phar
+sudo cp phpunit.phar /usr/local/bin/phpunit
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Installation: wp-cli</h2>
+					<pre><code data-trim class="bash">
+wget http://wp-cli.org/whatever
+chmod a+x wp-cli.phar
+sudo cp wp-cli.phar /usr/local/bin/wp-cli
+					</code></pre>
+
+					<h4>... then in your plugins dir:</h2>
+					<pre><code data-trim class="bash">
+wp-cli install plugin pluginname
+./pluginname/bin/install-wp-tests.sh test_db_name db_user db_pass
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>What does wp-cli do for you:</h2>
+					<ul>
+						<li class="fragment">Downloads brand new WP and puts it in /tmp</li>
+						<li class="fragment">Fires up a new WP instance using a test DB</li>
+						<li class="fragment">Registers your plugin under test</li>
+						<li class="fragment">Extends the phpunit TestCase class with extra fxn</li>
+						<li class="fragment">Automatically setup/tear down test data</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Things to test:</h2>
+					<ul>
+						<li class="fragment">any business logic/calculations</li>
+						<li class="fragment">install / uninstall (like tables created/dropped)</li>
+						<li class="fragment">activation / deactivation</li>
+						<li class="fragment">custom post types present</li>
+						<li class="fragment">custom post types meta stored</li>
+						<li class="fragment">custom taxonomies and terms</li>
+						<li class="fragment">external assets present and loaded</li>
+						<li class="fragment">plugin headers/readme</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>How to create your tests</h2>
+					<p>In <code>yourplugin/tests</code> directory there will be a file called <code>test-sample.php</code></p>
+					<pre><code data-trim>
+&lt;?php
+
+class SampleTest extends WP_UnitTestCase
+{
+    public function test_true()
+    {
+        $this->assertTrue(true);
+    }
+}
+					</code></pre>
+					<p>Copy / rename that file and start implementing your tests there</p>
+				</section>
+
+				<section>
+					<h2>Case study: Beerlog</h2>
+					<img src="img/beerlog_plugins_list.png" />
+				</section>
+
+				<section>
+					<h2>Beerlog: List beers</h2>
+					<img src="img/beerlog_admin_list.png" />
+				</section>
+
+				<section>
+					<h2>Beerlog: Edit beer</h2>
+					<img src="img/beerlog_edit_beer.png" />
+				</section>
+
+				<section>
+					<h2>Testing custom post type init</h2>
+					<pre><code data-trim class="php" style="font-size: 18px; width: 950px; height: 100%">
+&lt?php
+
+class BeerlogInitTest extends WP_UnitTestCase
+{
+  public function test_beerPostTypeInit()
+  {	
+	// Assert beer post type set
+	$postTypes = get_post_types( array( 'public' => true ), 'object' );
+	$this->assertTrue( isset( $postTypes['beerlog_beer'] ) );
+
+	$beerPostType = $postTypes['beerlog_beer'];
+
+	// Assert some essential basic properties
+	$this->assertTrue( $beerPostType->public );
+	$this->assertTrue( $beerPostType->publicly_queryable );
+	$this->assertTrue( $beerPostType->show_ui );
+	$this->assertEquals( 'post', $beerPostType->capability_type );
+	$this->assertFalse( $beerPostType->hierarchical );
+	$this->assertTrue( in_array( 'beerlog_style', $beerPostType->taxonomies ) );
+
+	// Assert Labels are set properly
+	$expectedLabels = \Beerlog\Models\Beer::getPostTypeLabels();
+	$actualLabels	= (array) $beerPostType->labels;
+	foreach ( $expectedLabels as $label => $value ) {
+	  $this->assertEquals( $value, $actualLabels[ $label ] );
+	}
+
+	// Assert basic properties are set properly
+	$expectedProps = \Beerlog\Models\Beer::getPostTypeProperties();
+	foreach ( $expectedProps as $propName => $value ) {
+	  $this->assertEquals( $value, $beerPostType->$propName, $propName );
+	}
+  }
+
+</code></pre>
+				</section>
+
+				<section>
+					<h2>Testing custom taxonomy and terms</h2>
+					<pre><code data-trim class="php" style="font-size: 18px; width: 950px; height: 100%">
+public function test_beerStyleTaxonomyInit()
+{
+	// Assert beer style taxonomy registered
+	$beerStyleTax = get_taxonomy( 'beerlog_style' );
+	$this->assertTrue( is_object( $beerStyleTax ) );
+
+	// Assert some essential basic properties
+	$this->assertTrue( $beerStyleTax->hierarchical );
+	$this->assertTrue( $beerStyleTax->public );
+	$this->assertTrue( $beerStyleTax->show_ui );
+	$this->assertTrue( $beerStyleTax->rewrite['hierarchical'] );
+	$this->assertFalse( $beerStyleTax->rewrite['with_front'] );
+
+	// Assert Labels are set properly
+	$expectedLabels = \Beerlog\Utils\Init::convertArrayToI18n( \Beerlog\Utils\Init::$styleTaxLabels );
+	$actualLabels	= (array) $beerStyleTax->labels;
+	foreach ( $expectedLabels as $label => $value )
+		$this->assertEquals( $value, $actualLabels[ $label ] );
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Testing custom post meta</h2>
+					<p>The Magical <code>WP_UnitTestCase</code> Factory</p>
+					<pre><code data-trim class="php" style="font-size: 18px; width: 950px; height: 100%">
+public function test_renderBeerPostMeta()
+{
+	$beerId = $this->factory->post->create( array( 'post_type' => 'beerlog_beer' ) );
+	$beerPost = get_post( $beerId );
+
+	$expValues = array(
+	  'abv' => rand( 2, 15 ),
+	  'ibu' => rand( 8, 60 ),
+	);
+	// TODO: Add all the other meta props
+
+	// Set some meta
+	foreach ( $expValues as $metaName => $metaValue ) {
+	  update_post_meta( $beerId, "_beerlog_meta_{$metaName}", $metaValue );
+	}
+
+	$controller = new \Beerlog\Controllers\Admin;
+
+	ob_start();
+	$controller->renderBeerPropertiesEdit( $beerPost );
+	$metaHtml = ob_get_contents();
+	ob_end_clean();
+
+	// Assert all meta is present and field values correspond to stored meta data
+	foreach ( $expValues as $metaName => $metaValue ) {
+	  $escValue = preg_quote( $metaValue, '/' );
+	  $this->assertTrue( (bool) preg_match( 
+	    "/id=\"beerlog_meta_{$metaName}\"[^\/]+value=\"{$escValue}\"[^\/]*\/>/imU", $metaHtml 
+	));
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Few words on OOP and Namespaces</h2>
+					<ul>
+						<li class="fragment">We do not want to create name-collisions</li>
+						<li class="fragment">Encapsulation is one of the core principles of OOP</li>
+						<li class="fragment">Namespaces introduce an additional level of isolation</li>
+						<li class="fragment">Can do object mocking</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Cool stuff to to check out:</h2>
+					<ul>
+						<li>PHPUnit mocking functionality</li>
+						<li>PHPUnit data providers</li>
+						<li>Test-Driven Development (TDD)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Even more cool testing stuff</h2>
+					
+					<div>
+						<div style="float: left; padding-left: 50px">
+							<img src="img/phantomjs_qunit.png" alt="PhantomJS+QUnit" style="border: none" />
+							<p><a href="#">qUnit</a> JS Testing FW</p>
+						</div>
+						<div style="float: right; padding-right: 50px">
+							<img src="img/seleniumHQ.jpg" alt="wp-cli" />
+							<p><a href="#">Selenium HQ</a></p>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li> Explain about headless testing, the cool features of Qunit, </li>
+							<li> mention Jordan Kasper and his "Browser Eyeballing != JavaScript Testing" talk </li>
+						<ul>
+					</aside>
+				</section>
 
 			</div>
 
