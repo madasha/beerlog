@@ -100,11 +100,12 @@
 					<h2>The Tools</h2>
 					<div>
 						<div style="float: left; padding-left: 50px">
-							<a href="http://phpunit.de"><img src="img/php-unit-logo.jpg" alt="PHPUnit" /></a>
-							<p>By <a href="http://sebastian-bergmann.de">Sebastian Bergmann</a></p>
+							<a href="http://phpunit.de"><img src="img/php-unit-logo.jpg" alt="PHPUnit" style="border: none; width: 400px" /></a><br/>
+							<small>By <a href="http://sebastian-bergmann.de">Sebastian Bergmann</a></small>
 						</div>
 						<div style="float: right; padding-right: 50px">
-							<img src="img/wp-cli.jpg" alt="wp-cli" />
+							<a href="http://wp-cli.org/"><img src="img/wp-cli.jpg" alt="wp-cli" style="border: none" /></a><br/>
+							<small>Maintained by <a href="https://github.com/danielbachhuber">Daniel Bachhuber</a></small>
 						</div>
 						<div style="clear: both"></div>
 					</div>
@@ -123,18 +124,23 @@
 				</section>
 
 				<section>
+					<h2>Warning!</h2>
+					<h3 style="padding-top:10px; color: #BB4444"><strong>DO NOT</strong> do this in production!</h3>
+				</section>
+
+				<section>
 					<h2>Installation: PHPUnit</h2>
 					<h4>linux:</h2>
 					<pre><code data-trim class="bash">
 wget http://phpunit.de/phpunit.phar
-chmod a+x phpunit.phar
+chmod +x phpunit.phar
 sudo cp phpunit.phar /usr/local/bin/phpunit
 					</code></pre>
 
 					<h4>mac:</h2>
 					<pre><code data-trim class="bash">
 wget http://phpunit.de/phpunit.phar
-chmod a+x phpunit.phar
+chmod +x phpunit.phar
 sudo cp phpunit.phar /usr/local/bin/phpunit
 					</code></pre>
 				</section>
@@ -142,14 +148,14 @@ sudo cp phpunit.phar /usr/local/bin/phpunit
 				<section>
 					<h2>Installation: wp-cli</h2>
 					<pre><code data-trim class="bash">
-wget http://wp-cli.org/whatever
-chmod a+x wp-cli.phar
-sudo cp wp-cli.phar /usr/local/bin/wp-cli
+wget https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+sudo cp wp-cli.phar /usr/local/bin/wp
 					</code></pre>
 
 					<h4>... then in your plugins dir:</h2>
 					<pre><code data-trim class="bash">
-wp-cli install plugin pluginname
+wp scaffold plugin-test yourplugin
 ./pluginname/bin/install-wp-tests.sh test_db_name db_user db_pass
 					</code></pre>
 				</section>
@@ -341,7 +347,7 @@ public function test_renderBeerPostMeta()
 							<p><a href="https://qunitjs.com/">qUnit</a> JS Testing FW</p>
 						</div>
 						<div style="float: right; padding-right: 50px">
-							<img style="border: none" src="img/seleniumhq.png" alt="wp-cli" />
+							<img style="border: none" src="img/seleniumhq.png" alt="seleniumhq" />
 							<p><a href="http://www.seleniumhq.org/">Selenium HQ</a></p>
 						</div>
 						<div style="clear: both"></div>
