@@ -10,19 +10,105 @@
 					{
 						"name": "India Pale Ale",
 						"slug": "ipa",
-						"children": []
+						"children": [
+							{
+								"name": "Double IPA",
+								"slug": "double-ipa"
+							},
+							{
+								"name": "India Red Ale",
+								"slug": "india-red-ale"
+							}
+						]
 					},
 					{
 						"name": "American Pale Ale",
 						"slug": "american-pale-ale",
 						"children": []
+					},
+					{
+						"name": "Strong Pale Ale",
+						"slug": "strong-pale-ale",
+						"children": [
+							{
+								"name": "Scotch Ale",
+								"slug": "scotch-ale"
+							},
+							{
+								"name": "Barley Wine",
+								"slug": "berley-wine"
+							}
+						]
 					}
 				]
 			},
 			{
 				"name": "Lambic",
 				"slug": "lambic",
-				"children": []
+				"children": [
+					{
+						"name": "Faro",
+						"slug": "faro"
+					},
+					{
+						"name": "Gueuze",
+						"slug": "gueuze"
+					},
+					{
+						"name": "Fruit",
+						"slug": "fruit"
+					},
+					{
+						"name": "Unblended",
+						"slug": "unblended"
+					}
+				]
+			},
+			{
+				"name": "Belgian/French Ales",
+				"slug": "belgian-french-ales",
+				"children": [
+					{
+						"name": "Witbier",
+						"slug": "witbier"
+					},
+					{
+						"name": "Flanders Red Ale",
+						"slug": "flanders-red"
+					},
+					{
+						"name": "Old Bruin",
+						"slug": "old-bruin"
+					},
+					{
+						"name": "Biere de Champagne",
+						"slug": "biere-de-champagne"
+					},
+					{
+						"name": "Biere de Garde",
+						"slug": "biere-de-garde"
+					},
+					{
+						"name": "Belgian Pale Ale",
+						"slug": "belgian-pale-ale",
+						"children": [
+							{
+								"name": "Belgian Strong Ale",
+								"slug": "belgian-strong-ale"
+							}
+						]
+					},
+					{
+						"name": "Belgian Dark Ale",
+						"slug": "belgian-dark-ale",
+						"children": [
+							{
+								"name": "Belgian Strong Dark Ale",
+								"slug": "belgian-strong-dark-ale"
+							}
+						]
+					}
+				]
 			},
 			{
 				"name": "German Ales",
@@ -38,15 +124,15 @@
 					},
 					{
 						"name": "Dunkelweizen",
-						"slug": "Dunkelweizen"
+						"slug": "dunkelweizen"
 					},
 					{
 						"name": "Gose",
-						"slug": "Gose"
+						"slug": "gose"
 					},
 					{
 						"name": "Hefeweizen",
-						"slug": "Hefeweizen"
+						"slug": "hefeweizen"
 					},
 					{
 						"name": "Kölsch",
@@ -54,15 +140,53 @@
 					},
 					{
 						"name": "Kristalweizen",
-						"slug": "Kristalweizen"
+						"slug": "kristalweizen"
 					},
 					{
 						"name": "Roggenbier",
-						"slug": "Roggenbier"
+						"slug": "reoggenbier"
 					},
 					{
 						"name": "Weizenbock",
-						"slug": "Weizenbock"
+						"slug": "weizenbock"
+					}
+				]
+			},
+			{
+				"name": "Stout / Porter",
+				"slug": "stout-porter",
+				"children": [
+					{
+						"name": "English Porter",
+						"slug": "english-porter"
+					},
+					{
+						"name": "American Porter",
+						"slug": "american-porter"
+					},
+					{
+						"name": "Irish Stout",
+						"slug": "irish-stout"
+					},
+					{
+						"name": "Russian Imperial Stout",
+						"slug": "russian-imperial-stout"
+					},
+					{
+						"name": "Sweet Stout",
+						"slug": "sweet-stout"
+					},
+					{
+						"name": "Flavored Stout",
+						"slug": "flavured-stout"
+					},
+					{
+						"name": "American Double Stout",
+						"slug": "american-double-stout"
+					},
+					{
+						"name": "Baltic Porter",
+						"slug": "baltic-porter"
 					}
 				]
 			},
@@ -77,6 +201,34 @@
 					{
 						"name": "Irish Red Ale",
 						"slug": "irish-red-ale"
+					}
+				]
+			},
+			{
+				"name": "Mild Ale",
+				"slug": "mild-ale",
+				"children": [
+					{
+						"name": "English Brown Ale",
+						"slug": "english-brown-ale"
+					},
+					{
+						"name": "American Brown Ale",
+						"slug": "american-brown-ale"
+					}
+				]
+			},
+			{
+				"name": "Vegetable Ale",
+				"slug": "veggie-ale",
+				"children": [
+					{
+						"name": "Pumpkin Ale",
+						"slug": "pumpkin-ale"
+					},
+					{
+						"name": "Chile Ale",
+						"slug": "chile-ale"
 					}
 				]
 			},
@@ -99,12 +251,80 @@
 			{
 				"name": 	"German Lager",
 				"slug": 	"german-lager",
-				"children": []
+				"children": [
+					{
+						"name": 	"Munich Lager",
+						"slug": 	"munich-lager",
+						"children": []
+					},
+					{
+						"name": 	"Marzen",
+						"slug": 	"marzen",
+						"children": []
+					},
+					{
+						"name": 	"Bock",
+						"slug": 	"bock",
+						"children": []
+					},
+					{
+						"name": 	"Vienna Lager",
+						"slug": 	"vienna-lager",
+						"children": []
+					},
+					{
+						"name": 	"Schwarzbier",
+						"slug": 	"schwarzbier",
+						"children": []
+					}
+				]
 			},
 			{
 				"name": 	"Pilsner",
 				"slug": 	"pilsner",
+				"children": [
+					{
+						"name": 	"Bohemian Pilsner",
+						"slug": 	"bohemian-pilsner",
+						"children": []
+					},
+					{
+						"name": 	"German Pilsner",
+						"slug": 	"german-pilsner",
+						"children": []
+					},
+					{
+						"name": 	"American Pilsner",
+						"slug": 	"american-pilsner",
+						"children": []
+					},
+					{
+						"name": 	"American Imperial Pilsner",
+						"slug": 	"american-imperial-pilsner",
+						"children": []
+					}
+				]
+			},
+			{
+				"name": 	"American Lager",
+				"slug": 	"american-lager",
 				"children": []
+			},
+			{
+				"name": 	"European Lager",
+				"slug": 	"eu-lager",
+				"children": []
+			},
+			{
+				"name": 	"European Strong Lager",
+				"slug": 	"eu-strong-lager",
+				"children": [
+					{
+						"name": 	"European Dark Lager",
+						"slug": 	"eu-dark-lager",
+					"children": []
+					}
+				]
 			}
 		]
 	}

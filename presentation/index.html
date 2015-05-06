@@ -15,7 +15,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+		<!-- <link rel="stylesheet" href="css/theme/solarized.css" id="theme"> -->
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -71,9 +72,9 @@
 					<img style="border: none" src="img/funny/tests-disturbing.jpg" />
 				</section>
 
-				<section >
+				<section>
 					<h2>1. We are not perfect</h2>
-					<p>{put a picture of an imperfect guy here}</p>
+					<img style="border: none" src="img/funny/king_leonidas_vitruvian_man.jpg" />
 				</section>
 
 				<section>
@@ -93,13 +94,6 @@
 
 					<span style=" font-size: 80%"><a href="https://codex.wordpress.org/Writing_a_Plugin#Updating_Your_Plugin">codex.wordpress.org/Writing_a_Plugin</a></span>
 
-				</section>
-
-				<section data-background="#333333">
-					<h2>Why NOT test?</h2>
-					<ul>
-						<li>Excuses from Michelangelo</li>
-					</ul>
 				</section>
 
 				<section>
@@ -123,7 +117,7 @@
 					<h2>Prerequisites:</h2>
 					<ul>
 						<li>php 5.3+</li>
-						<li>linux or mac OS (uses /tmp)</li>
+						<li>linux or mac OS (uses <code>/tmp</code>)</li>
 						<li>mysql</li>
 					</ul>
 				</section>
@@ -163,11 +157,11 @@ wp-cli install plugin pluginname
 				<section>
 					<h2>What does wp-cli do for you:</h2>
 					<ul>
-						<li class="fragment">Downloads brand new WP and puts it in /tmp</li>
+						<li class="fragment">Downloads brand new WP and puts it in <code>/tmp</code></li>
 						<li class="fragment">Fires up a new WP instance using a test DB</li>
 						<li class="fragment">Registers your plugin under test</li>
 						<li class="fragment">Extends the phpunit TestCase class with extra fxn</li>
-						<li class="fragment">Automatically setup/tear down test data</li>
+						<li class="fragment">Automatically set up/tear down test data</li>
 					</ul>
 				</section>
 
@@ -347,8 +341,8 @@ public function test_renderBeerPostMeta()
 							<p><a href="#">qUnit</a> JS Testing FW</p>
 						</div>
 						<div style="float: right; padding-right: 50px">
-							<img src="img/seleniumHQ.jpg" alt="wp-cli" />
-							<p><a href="#">Selenium HQ</a></p>
+							<img style="border: none" src="img/seleniumhq.png" alt="wp-cli" />
+							<p><a href="http://www.seleniumhq.org/">Selenium HQ</a></p>
 						</div>
 						<div style="clear: both"></div>
 					</div>
@@ -359,6 +353,24 @@ public function test_renderBeerPostMeta()
 							<li> mention Jordan Kasper and his "Browser Eyeballing != JavaScript Testing" talk </li>
 						<ul>
 					</aside>
+				</section>
+
+				<section>
+					<h2>Credits &amp; references</h2>
+					<p><a href="#"><q>"Testing wordpress plugins"</q></a> by Cal Evans</p>
+					<p><a href="http://phpqatools.org">The PHP Quality Assurance Toolchain</a></p>
+					<p><a href="http://bit.ly/js-testing"><q>"Browser Eyeballing != JavaScript Testing"</q></a> by Jordan Kasper</p>
+					<p>Slides: <a href="#">http://kyup.irintchev.com/loopconf</a></p>
+				</section>
+
+				<section data-background="img/pip/Questions.jpg">
+					<div style="position: absolute; top: -100px; left: 50px">
+						<h1 style="font-size: 2.3em">Thank You!</h1>
+					</div>
+					<div style="position: absolute; top: -190px; right: -40px; text-align: left">
+						<a mailto="m.irintchev@siteground.com" style="color: #222">m.irintchev@siteground.com</a><br/>
+						<a href="http://twitter.com/irintchev">@irintchev</a>
+					</div>
 				</section>
 
 			</div>

@@ -87,7 +87,8 @@ foreach ( $propsPro as $propName => $propValue )
 									<input type="range" name="beerlog_meta_props[<?php echo $propName?>]" id="beerlog_meta_props_<?php echo $propName?>"
 										min="1" max="5" step="1" value="<?php echo $propValue; ?>" defaultValue="<?php echo $propValue; ?>"
 										style="vertical-align: text-top" oninput="outputUpdate('<?php echo $propName?>', value)" />
-									<input id="beerlog_output_<?php echo $propName?>" type="text" style="width: 30px" value="<?php echo $propValue; ?>" />
+									<input id="beerlog_output_<?php echo $propName?>" type="text" style="width: 30px" 
+										value="<?php echo $propValue; ?>" onchange="inputUpdate( '<?php echo $propName?>', value )" />
 								</td>
 							</tr>
 							<?php endforeach; ?>
@@ -146,5 +147,12 @@ function togglePropsChart( value )
 function outputUpdate( propName, value )
 {
 	document.getElementById('beerlog_output_' + propName).value = value;
+}
+
+function inputUpdate( propName, value )
+{
+	console.log( propName + ' : ' + value );
+	document.getElementById( 'beerlog_meta_props_' + propName ).value = value;
+	document.getElementById( 'beerlog_meta_props_' + propName ).defaultValue = value;
 }
 </script>

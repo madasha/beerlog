@@ -39,9 +39,12 @@ get_header(); ?>
 						<p><?php the_excerpt(); ?></p>
 					</td>
 					<td style="text-align: left; vertical-align: top">
-					<?php foreach ( $beerStyles as $styleTerm ): ?>
+					<?php 
+						$count = 0;
+						foreach ( $beerStyles as $styleTerm ): ?>
 						<span style="margin-right: 4px">
                             <?php echo $styleTerm->link ? $styleTerm->link : esc_html( $styleTerm->name ); ?>
+                            <?php if ( $count++ < count( $beerStyles ) - 1 ) echo "; "; ?>
                         </span>
 					<?php endforeach; ?>
                 	</td>
