@@ -1,6 +1,8 @@
 <?php
 namespace Beerlog\Controllers;
 
+use Beerlog\Models\Beer;
+
 class Frontend
 {
 	public function getBeerViewTemplate( $templatePath )
@@ -18,6 +20,19 @@ class Frontend
 		}
 
 		return $templatePath;
+	}
+
+	public static function renderBeerStyles( Beer $beerlogBeer )
+	{
+		$beerStyles = $beerlogBeer->getStyles();
+		foreach ( $beerStyles as $styleTerm )
+		{
+            ?>
+            <span style="border: 1px solid #a1a1a1; padding: 3px; background: #dddddd; border-radius: 4px; margin-right: 4px">
+                <?php echo $styleTerm->link ? $styleTerm->link : esc_html( $styleTerm->name ); ?>
+            </span>
+            <?php
+		}
 	}
 }
 

@@ -39,14 +39,7 @@ get_header(); ?>
 						<p><?php the_excerpt(); ?></p>
 					</td>
 					<td style="text-align: left; vertical-align: top">
-					<?php 
-						$count = 0;
-						foreach ( $beerStyles as $styleTerm ): ?>
-						<span style="margin-right: 4px">
-                            <?php echo $styleTerm->link ? $styleTerm->link : esc_html( $styleTerm->name ); ?>
-                            <?php if ( $count++ < count( $beerStyles ) - 1 ) echo "; "; ?>
-                        </span>
-					<?php endforeach; ?>
+						<?php \Beerlog\Controllers\Frontend::renderBeerStyles( $beerPost ); ?>
                 	</td>
 					<td style="text-align: left; vertical-align: top">
 						<?php _e('Alc: ', 'beerlog'); ?><?php echo esc_html( get_post_meta( $post->ID, '_beerlog_meta_abv', true ) ); ?> %

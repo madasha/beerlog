@@ -38,9 +38,4 @@ class BeerlogBackendTest extends WP_UnitTestCase
    			));
    		}
 	}
-
-	public function test_saveBeerPostMeta()
-	{
-
-	}
 }

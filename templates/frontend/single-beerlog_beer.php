@@ -57,11 +57,7 @@ get_header(); ?>
                     <tr>
                         <th width="35%"><?php _e( count( $beerStyles ) > 1 ? 'Styles: ' : 'Style: ', 'beerlog'); ?></th>
                         <td>
-                            <?php foreach ( $beerStyles as $styleTerm ): ?>
-                                <span style="border: 1px solid #a1a1a1; padding: 3px; background: #dddddd; border-radius: 4px; margin-right: 4px">
-                                    <?php echo $styleTerm->link ? $styleTerm->link : esc_html( $styleTerm->name ); ?>
-                                </span>
-                            <?php endforeach; ?>
+                            <?php \Beerlog\Controllers\Frontend::renderBeerStyles( $beerPost ); ?>
                         </td>
                     </tr>
                     <?php endif; ?>
