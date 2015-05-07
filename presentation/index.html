@@ -64,6 +64,9 @@
 					</ul>
 				</section>
 
+				<section data-background="img/beer_styles_wide.jpg">
+				</section>
+
 				<section>
 					<h2>Why test?</h2>
 				</section>
@@ -94,6 +97,10 @@
 
 					<span style=" font-size: 80%"><a href="https://codex.wordpress.org/Writing_a_Plugin#Updating_Your_Plugin">codex.wordpress.org/Writing_a_Plugin</a></span>
 
+				</section>
+
+				<section data-background="#333333">
+					<img style="border: none" src="img/funny/untested_code.jpg" />
 				</section>
 
 				<section>
@@ -128,6 +135,10 @@
 					<h3 style="padding-top:10px; color: #BB4444"><strong>DO NOT</strong> do this in production!</h3>
 				</section>
 
+				<section data-background="#333333">
+					<img style="border: none" src="img/funny/i-dont-always-test-my-code.jpg" />
+				</section>
+
 				<section>
 					<h2>Installation: PHPUnit</h2>
 					<h4>linux:</h2>
@@ -143,6 +154,7 @@ wget http://phpunit.de/phpunit.phar
 chmod +x phpunit.phar
 sudo cp phpunit.phar /usr/local/bin/phpunit
 					</code></pre>
+					<p>(Just follow instructions from <a href="http://phpunit.de">phpunit.de</a>)</p>
 				</section>
 
 				<section>
@@ -155,15 +167,25 @@ sudo cp wp-cli.phar /usr/local/bin/wp
 
 					<h4>... then in your plugins dir:</h2>
 					<pre><code data-trim class="bash">
-wp scaffold plugin-test yourplugin
+wp scaffold plugin-tests yourplugin
 ./pluginname/bin/install-wp-tests.sh test_db_name db_user db_pass
 					</code></pre>
+					<p>(Just follow instructions from <a href="http://wp-cli.org/">wp-cli.org</a>)</p>
 				</section>
 
 				<section>
-					<h2>What does wp-cli do for you:</h2>
+					<p style="font-size: 140%">What does <span style="color: #268BD2">wp-cli scaffold plugin-tests</span> basically do for you:</p>
 					<ul>
-						<li class="fragment">Downloads brand new WP and puts it in <code>/tmp</code></li>
+						<li class="fragment">Creates a <code style="color: #268BD2">/tests</code> dir with sample test and tests bootstrap file</li>
+						<li class="fragment">Creates a <code style="color: #268BD2">/bin</code> dir with <code style="color: #268BD2">install-wp-tests.sh</code> file</li>
+						<li class="fragment">Creates a <code style="color: #268BD2">phpunit.xml</code> file to configure PHPUnit</li>
+					</ul>
+				</section>
+
+				<section>
+					<p style="font-size: 140%">What does <span style="color: #268BD2">bin/install-wp-tests.sh</span> do for you:</p>
+					<ul>
+						<li class="fragment">Downloads brand new WP and puts it in <code style="color: #268BD2">/tmp</code></li>
 						<li class="fragment">Fires up a new WP instance using a test DB</li>
 						<li class="fragment">Registers your plugin under test</li>
 						<li class="fragment">Extends the phpunit TestCase class with extra fxn</li>
@@ -191,12 +213,12 @@ wp scaffold plugin-test yourplugin
 					<pre><code data-trim>
 &lt;?php
 
-class SampleTest extends WP_UnitTestCase
-{
-    public function test_true()
-    {
-        $this->assertTrue(true);
-    }
+class SampleTest extends WP_UnitTestCase {
+
+	function test_sample() {
+		// replace this with some actual testing code
+		$this->assertTrue( true );
+	}
 }
 					</code></pre>
 					<p>Copy / rename that file and start implementing your tests there</p>
@@ -325,7 +347,7 @@ public function test_renderBeerPostMeta()
 						<li class="fragment">We do not want to create name-collisions</li>
 						<li class="fragment">Encapsulation is one of the core principles of OOP</li>
 						<li class="fragment">Namespaces introduce an additional level of isolation</li>
-						<li class="fragment">Can do object mocking</li>
+						<li class="fragment">Mocking is way easier</li>
 					</ul>
 				</section>
 
@@ -371,7 +393,7 @@ public function test_renderBeerPostMeta()
 
 				<section data-background="img/pip/Questions.jpg">
 					<div style="position: absolute; top: -100px; left: 50px">
-						<h1 style="font-size: 2.3em">Thank You!</h1>
+						<h1 style="font-size: 2.3em; color: #268BD2">Thank You!</h1>
 					</div>
 					<div style="position: absolute; top: -190px; right: -40px; text-align: left">
 						<a mailto="m.irintchev@siteground.com" style="color: #222">m.irintchev@siteground.com</a><br/>
