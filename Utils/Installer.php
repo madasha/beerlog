@@ -93,7 +93,8 @@ class Installer
 
 	private static function _setInitialOptions()
 	{
-		// This forces the beer styles terms generation, adds the option if it does not exist
-		update_option( 'beerlog_styles_loaded', 'false' );
+		// This forces the beer styles and breweries terms generation, adds the option if it does not exist
+		update_option( 'beerlog_styles_loaded'	, 'false' );
+		update_option( 'beweries_loaded'		, 'false' );
 	}
 }

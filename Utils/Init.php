@@ -69,9 +69,11 @@ class Init
 		self::initBeerEditMeta();
 		self::initBeerSaveMeta();
 		self::initBeerStyleTaxonomy();
-		self::initBreweryTaxonomy();
 		self::initBeerStyles();
+		self::initBreweryTaxonomy();
+		self::initBreweries();
 		self::initBeerViewTemplates();
+		self::initPluginOptions();
 	}
 
 	private static function _getController( $controllerName )
@@ -97,40 +99,6 @@ class Init
 
 		register_post_type( 'beerlog_beer', $args );
 	}
-
-	/*
-	public static function initBreweryPostType()
-	{
-		$labels = array(
-			'name'               => __( 'Breweries', 'beerlog' ),
-			'singular_name'      => __( 'Brewery', 'beerlog' ),
-			'add_new'            => __( 'Add New Brewery', 'beerlog' ),
-			'add_new_item'       => __( 'Add New Brewery', 'beerlog' ),
-			'edit_item'          => __( 'Edit Brewery', 'beerlog' ),
-			'new_item'           => __( 'New Brewery', 'beerlog' ),
-			'all_items'          => __( 'Breweries', 'beerlog' ),
-			'view_item'          => __( 'View Brewery', 'beerlog'),
-			'search_items'       => __( 'Search for breweries', 'beerlog' ),
-			'not_found'          => __( 'No breweries found', 'beerlog' ),
-			'not_found_in_trash' => __( 'No breweries found in the Trash', 'beerlog' ),
-			'menu_name'          => __( 'Breweries', 'beerlog' )
-		);
-
-		$args = array(
-			'labels'        	=> $labels,
-			'description'   	=> 'Holds breweries-related data',
-			'public'        	=> true,
-			'capability_type' 	=> 'post',
-			'hierarchical' 		=> false,
-			'has-archive' 		=> true,
-			'show_in_menu'  	=> 'edit.php?post_type=beerlog_beer',
-			'rewrite' 			=> array( 'slug' => 'breweries', 'with_front' => false, 'feeds' => true, 'pages' => true),
-			'supports'      	=> array( 'title', 'editor', 'thumbnail', 'revisions', 'comments'),
-		);
-
-		register_post_type( 'beerlog_brewery', $args );
-	}
-	*/
 
 	public static function initBeerStyleTaxonomy()
 	{
@@ -179,8 +147,7 @@ class Init
 
 	public static function initBeerStyles()
 	{
-		// TODO: Compare file checksum against stored value in options to determine if it needs rebuild
-		if ( get_option('beerlog_styles_loaded') != 'true')
+		if ( get_option('beerlog_styles_loaded') != 'true' )
 		{
 			$stylesFile = BEERLOG_BASEDIR . '/assets/beer-styles.json';
 			if ( is_readable( $stylesFile ) )
@@ -190,25 +157,30 @@ class Init
 
 				if ( is_array( $styles ) )
 				{
-					self::insertStylesTerms( $styles );
+					self::insertTaxTerms( $styles );
 					update_option('beerlog_styles_loaded', 'true');
 				}
 			}
 		}
 	}
 
-	public static function insertStylesTerms( $styles, $parentId = 0, $taxonomy = 'beerlog_style' )
+	public static function initBreweries()
 	{
-		foreach( $styles as $style )
+		// TODO: Load breweries hierarchy from file like the beer styles
+	}
+
+	public static function insertTaxTerms( $taxTerms, $parentId = 0, $taxonomy = 'beerlog_style' )
+	{
+		foreach( $taxTerms as $taxTerm )
 		{
-			if ( $term = get_term_by( 'slug', $style->slug, $taxonomy ) )
+			if ( $term = get_term_by( 'slug', $taxTerm->slug, $taxonomy ) )
 			{
 				$result = wp_update_term(
 					$term->term_id,
 					$taxonomy,
 					array(
-						'name'		=> $style->name,
-						'slug' 		=> $style->slug,
+						'name'		=> $taxTerm->name,
+						'slug' 		=> $taxTerm->slug,
 						'parent'	=> $parentId,
 					)
 				);
@@ -216,20 +188,26 @@ class Init
 			else
 			{
 				$result = wp_insert_term(
-					$style->name,
+					$taxTerm->name,
 					$taxonomy,
 					array(
-						'slug' 		=> $style->slug,
+						'slug' 		=> $taxTerm->slug,
 						'parent'	=> $parentId,
 					)
 				);
 			}
 
-			if ( $result && $result['term_id'] && isset( $style->children ) && count( $style->children ) )
+			if ( $result && $result['term_id'] && isset( $taxTerm->children ) && count( $taxTerm->children ) )
 			{
-				self::insertStylesTerms( $style->children, $result['term_id'] );
+				self::insertTaxTerms( $taxTerm->children, $result['term_id'] );
 			}
 		}
+	}
+
+	public static function initPluginOptions()
+	{
+		// TODO: Init the management of 'beerlog_styles_loaded' and 'breweries_loaded' taxonomies
+		// Need to be able to rest them to force load form file
 	}
 
 	public static function initBeerEditMeta()
