@@ -46,16 +46,30 @@ class Init
 		'menu_name' 		=> 'Beer Styles',
 	);
 
+	public static $breweryTaxLabels = array(
+		'name' 				=> 'Breweries',
+		'singular_name' 	=> 'Brewery',
+		'search_items' 		=> 'Search Breweries',
+		'all_items' 		=> 'All Breweries',
+		'parent_item' 		=> 'Parent Brewery',
+		'parent_item_colon' => 'Parent Brewery:',
+		'edit_item' 		=> 'Edit Brewery',
+		'update_item' 		=> 'Update Brewery',
+		'add_new_item' 		=> 'Add New Brewery',
+		'new_item_name' 	=> 'Brewery Name',
+		'menu_name' 		=> 'Breweries',
+	);
+
 	private static $_controllers = array();
 	private static $_stylesLoaded = false;
 
 	public static function initAll()
 	{
 		self::initBeerPostType();
-		// self::initBreweryPostType();
 		self::initBeerEditMeta();
 		self::initBeerSaveMeta();
-		self::initBeerCustomTaxonomies();
+		self::initBeerStyleTaxonomy();
+		self::initBreweryTaxonomy();
 		self::initBeerStyles();
 		self::initBeerViewTemplates();
 	}
@@ -118,7 +132,7 @@ class Init
 	}
 	*/
 
-	public static function initBeerCustomTaxonomies()
+	public static function initBeerStyleTaxonomy()
 	{
 		$labels = self::convertArrayToI18n( self::$styleTaxLabels );
 		$args 	= array(
@@ -133,6 +147,23 @@ class Init
 
 		register_taxonomy( 'beerlog_style', 'beerlog_beer', $args );
 		register_taxonomy_for_object_type( 'beerlog_style', 'beerlog_beer' );
+	}
+
+	public static function initBreweryTaxonomy()
+	{
+		$labels = self::convertArrayToI18n( self::$breweryTaxLabels );
+		$args 	= array(
+			'hierarchical' 	=> true,
+			'labels' 		=> $labels,
+			'rewrite' => array(
+	      		'slug' 			=> 'breweries', // This controls the base slug that will display before each term
+	      		'with_front' 	=> false, // Don't display the category base before "/styles/"
+	      		'hierarchical' 	=> true // This will allow URL's like "/styles/lager/pilsner/"
+	      	),
+		);
+
+		register_taxonomy( 'beerlog_brewery', 'beerlog_beer', $args );
+		register_taxonomy_for_object_type( 'beerlog_brewery', 'beerlog_beer' );
 	}
 
 	public static function convertArrayToI18n( $arr, $textDomain = 'beerlog' )
