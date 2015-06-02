@@ -1,0 +1,20 @@
+[
+	{
+		"name": 	"Heiniken",
+		"slug": 	"heiniken",
+		"children": [
+			{
+				"name": "Zagorka",
+				"slug": "zagorka"
+			}
+		]
+	},
+	{
+		"name": 	"Bernard",
+		"slug": 	"bernard"
+	},
+	{
+		"name": 	"Glarus",
+		"slug": 	"glarus"
+	}
+]
