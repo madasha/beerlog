@@ -74,6 +74,10 @@ class Init
 		self::initBreweries();
 		self::initBeerViewTemplates();
 		self::initPluginOptions();
+
+		// Required because of the custom post types rewrite rules
+		// (I know I should not do this here, but I have no idea why this does not work on install hook)
+		flush_rewrite_rules();
 	}
 
 	private static function _getController( $controllerName )
