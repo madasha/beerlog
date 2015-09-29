@@ -22,6 +22,7 @@ get_header(); ?>
 
             $beerStyles     = $beerPost->getStyles();
             $hasPropsChart  = $beerPost->getMeta( '_beerlog_meta_prop_chart' );
+            $hasLocations   = $beerPost->getMeta( '_beerlog_meta_locations' );
             // $hasPropsChart  = get_post_meta( $post->ID, '_beerlog_meta_prop_chart', true );
             // $beerStyles     = wp_get_post_terms( $post->ID, 'beerlog_style',
             //     array( 'orderby' => 'parent', 'order' => 'ASC' )
@@ -111,6 +112,14 @@ get_header(); ?>
                     </script>
 
                 <?php endif; ?>
+
+
+                <?php if ( $hasLocations ): ?>
+
+                    <h4><?php _e('This beer can be found here: ', 'beerlog'); ?></h4>
+
+                <?php endif;?>
+
             </div>
         </article>
 
