@@ -17,6 +17,9 @@ class Installer
 
 		// Any options to set?
 		self::_setInitialOptions();
+		
+		// Flush the rewrite rules so CPT singular pages load.
+		flush_rewrite_rules();
 	}
 
 	public static function uninstall()
