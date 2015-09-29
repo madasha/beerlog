@@ -20,6 +20,7 @@ get_header(); ?>
             the_post();
             $beerPost = new \Beerlog\Models\Beer( $post );
 
+            $apiKey         = get_option( 'beerlog_gmaps_key' );
             $beerStyles     = $beerPost->getStyles();
             $hasPropsChart  = $beerPost->getMeta( '_beerlog_meta_prop_chart' );
             $hasLocations   = $beerPost->getMeta( '_beerlog_meta_locations' );
@@ -116,7 +117,40 @@ get_header(); ?>
 
                 <?php if ( $hasLocations ): ?>
 
+                    <script type="text/javascript">
+
+                        function initMap( myLatLng ) {
+                          // Create a map object and specify the DOM element for display.
+                          var map = new google.maps.Map(document.getElementById('map'), {
+                            center: myLatLng,
+                            scrollwheel: false,
+                            zoom: 4
+                          });
+
+                          // Create a marker and set its position.
+                          var marker = new google.maps.Marker({
+                            map: map,
+                            position: myLatLng,
+                            title: 'There you are!!'
+                          });
+                        }
+
+                        jQuery(document).ready(function init() 
+                        {
+                            // TODO: Replace this with a loop of the last N locations, pass coordinates to initMap
+                            setTimeout( 'initMap( {lat: 42.122, lng: 70} );', 3000 );
+                        });
+
+                    </script>
+
                     <h4><?php _e('This beer can be found here: ', 'beerlog'); ?></h4>
+
+                    <div id="map" style="width: 80%; height: 400px">
+    
+                    </div>
+
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey;?>&signed_in=true&callback=initMap">
+                    </script>
 
                 <?php endif;?>
 
