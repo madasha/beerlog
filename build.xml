@@ -55,8 +55,8 @@
 				checkreturn="true" passthru="true" />
 
 		<echo message="Adding test user"/>
-		<echo message="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot; CHARSET utf8'" />
-		<exec command="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot; CHARSET utf8'"
+		<echo message="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot;'" />
+		<exec command="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot;'"
 				checkreturn="true" passthru="true" />
 
 	</target>
