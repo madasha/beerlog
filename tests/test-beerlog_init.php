@@ -83,8 +83,8 @@ class BeerlogInitTest extends WP_UnitTestCase
 		$stylesFile = BEERLOG_BASEDIR . '/assets/beer-styles.json';
 		$this->_test_jsonAndTermsOk( $stylesFile, 'beerlog_style' );
 
-		$breweriesFile = BEERLOG_BASEDIR . '/assets/breweries.json';
-		$this->_test_jsonAndTermsOk( $breweriesFile, 'beerlog_brewery' );
+		// $breweriesFile = BEERLOG_BASEDIR . '/assets/breweries.json';
+		// $this->_test_jsonAndTermsOk( $breweriesFile, 'beerlog_brewery' );
 	}
 
 	private function _test_jsonAndTermsOk( $filename, $taxname )
