@@ -14,3 +14,4 @@ before_script:
     - bash bin/install-wp-tests.sh wp_tests root '' localhost $WP_VERSION
 
 script: phpunit
+
