@@ -53,7 +53,13 @@
 				checkreturn="true" passthru="true" />
 
 		<echo message="Creating test DB"/>
-		<exec command="mysql -u root --password='' -e 'CREATE DATABASE wp_tests CHARSET utf8'"
+		<echo message="mysql -u root -e 'CREATE DATABASE ${testDbName} CHARSET utf8'" />
+		<exec command="mysql -u root -e 'CREATE DATABASE ${testDbName} CHARSET utf8'"
+				checkreturn="true" passthru="true" />
+
+		<echo message="Adding test user"/>
+		<echo message="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot; CHARSET utf8'" />
+		<exec command="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot; CHARSET utf8'"
 				checkreturn="true" passthru="true" />
 
 	</target>
@@ -62,7 +68,9 @@
 	<!-- Target: run_wp_install - run the script that pulls latest WP and sets up a test installation    -->
 	<!-- =============================================================================================== -->
 	<target name="run_wp_install" depends="setup_contphp_env">
-		<exec command="${srcdir}/bin/install-wp-tests.sh ${testDbName} ${testDbUser} ${testDbPass} ${testDbHost} ${wpVersion}" checkreturn="true" passthru="true" />
+		<echo message="Running ${srcdir}/bin/install-wp-tests.sh ${testDbName} ${testDbUser} ${testDbPass} ${testDbHost} ${wpVersion}" />
+		<exec command="${srcdir}/bin/install-wp-tests.sh ${testDbName} ${testDbUser} ${testDbPass} ${testDbHost} ${wpVersion}"
+			checkreturn="true" passthru="true" />
 	</target>
 
 
