@@ -39,6 +39,21 @@
 
 	</target>
 
+
+	<!-- =============================================================================================== -->
+	<!-- Target: setup_contphp_env - installs required software on the continuousphp test container      -->
+	<!-- =============================================================================================== -->
+	<target name="setup_contphp_env">
+		<echo message="Installing dependencies"/>
+		<exec 	dir="${project.basedir}"
+				command="sudo apt-get install --assume-yes subversion"
+				checkreturn="true" passthru="true" />
+
+		<echo message="Creating test DB"/>
+		<exec command="mysql -e 'CREATE DATABASE wp_tests CHARSET utf8'"
+				checkreturn="true" passthru="true" />
+	</target>
+
 	<!-- =============================================================================================== -->
 	<!-- Target: run_wp_install - run the script that pulls latest WP and sets up a test installation    -->
 	<!-- =============================================================================================== -->
