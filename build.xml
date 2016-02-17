@@ -46,6 +46,9 @@
 	<target name="setup_contphp_env">
 		<echo message="Installing dependencies"/>
 		<exec 	dir="${project.basedir}"
+				command="sudo apt-get update"
+				checkreturn="true" passthru="true" />
+		<exec 	dir="${project.basedir}"
 				command="sudo apt-get install --assume-yes subversion"
 				checkreturn="true" passthru="true" />
 
