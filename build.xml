@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model xlink:href="/usr/local/php54/pear/data/phing/etc/phing-grammar.rng"
+            type="application/xml"
+            schematypens="http://relaxng.org/ns/structure/1.0" ?>
+
+<project name="beerlog" basedir="." default="dist" description="beerlog build script">
+
+	<property name="package"		value="${phing.project.name}" />
+    <property name="srcdir"			value="${project.basedir}" />
+  	<property name="exclude_file"	value="${srcdir}/exclude-list" />
+
+  	<!-- All the properties you need to set locally are in this file: -->
+  	<property file="build_properties.txt" />
+
+    <!-- ================================================= -->
+    <!-- Define some filesets and patternsets to use later -->
+    <!-- ================================================= -->
+	<patternset id="build_excludelist">
+		<exclude name="**/.settings" />
+		<exclude name="**/.project" />
+		<exclude name="**/.travis.yml" />
+		<exclude name="**/*.sql" />
+		<exclude name="**/*.git*" />
+		<exclude name="**/*.txt" />
+		<exclude name="**/*.bak" />
+		<exclude name="**/*.log" />
+		<exclude name="**/~*" />
+		<exclude name="**/Thumb*.db" />
+	</patternset>
+
+	<!-- ================================================================ -->
+	<!-- Target: prepare - updates from git, applies changes to build dir -->
+	<!-- ================================================================ -->
+	<target name="prepare">
+
+		<gitpull repository="${srcdir}" source="origin" />
+
+		<phingcall target="run_wp_install"></phingcall>
+
+	</target>
+
+	<!-- =============================================================================================== -->
+	<!-- Target: run_wp_install - run the script that pulls latest WP and sets up a test installation    -->
+	<!-- =============================================================================================== -->
+	<target name="run_wp_install">
+		<exec command="${srcdir}/bin/install-wp-tests.sh ${testDbName} ${testDbUser} ${testDbPass} ${testDbHost} ${wpVersion}" checkreturn="true" passthru="true" />
+	</target>
+
+
+	<!-- ===================================================================== -->
+	<!-- Target: run_phpunit_tests - a subtask that runs PHPUnit on predefined -->
+	<!-- 		phpunit tests/suits 			   							   -->
+	<!-- ===================================================================== -->
+	<target name="run_phpunit_tests">
+
+		<echo msg="Running PHPUnit tests:" />
+		<phpunit haltonfailure="true" haltonerror="true" configuration="${srcdir}/phpunit.xml" pharlocation="${phpunitBin}">
+			<formatter type="plain" usefile="false" />
+			<batchtest>
+				<fileset dir="${srcdir}/tests">
+					<include name="test-*"/>
+				</fileset>
+			</batchtest>
+		</phpunit>
+
+	</target>
+
+	<!-- ============================================ -->
+	<!-- Target: build 								  -->
+	<!-- ============================================ -->
+	<target name="build" depends="prepare">
+
+		<!-- Run unit tests -->
+		<phingcall target="run_phpunit_tests">
+    		<property name="srcdir" value="${srcdir}" />
+		</phingcall>
+
+		<echo msg="Fixing build dir permissions..." />
+
+	</target>
+
+	<!-- ============================================ -->
+	<!-- (DEFAULT) Target: dist 					  -->
+	<!-- ============================================ -->
+	<target name="dist" depends="build">
+
+		<echo msg="Качвай съъъ, нъ Облакъъъ!" />
+
+
+	</target>
+
+</project>
