@@ -61,7 +61,7 @@
 	<!-- =============================================================================================== -->
 	<!-- Target: run_wp_install - run the script that pulls latest WP and sets up a test installation    -->
 	<!-- =============================================================================================== -->
-	<target name="run_wp_install">
+	<target name="run_wp_install" depends="setup_contphp_env">
 		<exec command="${srcdir}/bin/install-wp-tests.sh ${testDbName} ${testDbUser} ${testDbPass} ${testDbHost} ${wpVersion}" checkreturn="true" passthru="true" />
 	</target>
 
