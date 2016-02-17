@@ -52,6 +52,7 @@
 		<echo message="Creating test DB"/>
 		<exec command="mysql -e 'CREATE DATABASE wp_tests CHARSET utf8'"
 				checkreturn="true" passthru="true" />
+
 	</target>
 
 	<!-- =============================================================================================== -->
