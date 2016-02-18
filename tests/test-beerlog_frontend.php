@@ -11,12 +11,12 @@ class BeerlogFrontendTest extends WP_UnitTestCase
                 		->getMock();
 
         $testStyles = array();
-        $testStyles[] = (object) [ 
-        	'name' => 'my style 1', 'link' => 'sink' 
-        ];
-        $testStyles[] = (object) [ 
-        	'name' => 'other style 1', 'link' => 'other sink' 
-        ];
+        $testStyles[] = (object) array(
+        	'name' => 'my style 1', 'link' => 'sink'
+        );
+        $testStyles[] = (object) array(
+        	'name' => 'other style 1', 'link' => 'other sink'
+        );
 
         $beer	->method('getStyles')
              	->willReturn( $testStyles );
@@ -28,8 +28,8 @@ class BeerlogFrontendTest extends WP_UnitTestCase
 
    		foreach ( $testStyles as $style ) {
    			$escValue = preg_quote( $style->link, '/' );
-   			$this->assertTrue( (bool) preg_match( 
-   				"/<span\s+[^>]+>\s*{$escValue}\s*<\/span>/imU", $metaHtml 
+   			$this->assertTrue( (bool) preg_match(
+   				"/<span\s+[^>]+>\s*{$escValue}\s*<\/span>/imU", $metaHtml
    			));
    		}
 	}
