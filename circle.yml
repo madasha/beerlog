@@ -1,0 +1,59 @@
+## Customize the test machine
+machine:
+
+  timezone:
+    Europe/Sofia # Set the timezone
+
+  # Version of ruby to use
+  php:
+    version:
+      5.4
+
+  # Add some environment variables
+  environment:
+    WP_VERSION: latest
+    WP_MULTISITE: 0
+    TEST_DB_NAME: wp_tests
+    TEST_DB_USER: wp_user
+    TEST_DB_PASS: wppass
+    TEST_DB_HOST: localhost
+
+## Customize checkout
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init # use submodules
+
+## Customize dependencies
+dependencies:
+  pre:
+    - mysql -u root -e "CREATE DATABASE $TEST_DB_NAME CHARSET utf8"
+    - mysql -u root -e "GRANT ALL ON $TEST_DB_NAME.* TO $TEST_DB_USER@$TEST_DB_HOST IDENTIFIED BY '$TEST_DB_PASS'"
+    - bash bin/install-wp-tests.sh $TEST_DB_NAME $TEST_DB_USER $TEST_DB_PASS $TEST_DB_HOST $WP_VERSION
+
+  override:
+    - bundle install: # note ':' here
+        timeout: 180 # fail if command has no output for 3 minutes
+
+## Customize database setup
+#database:
+#  override:
+    # replace CircleCI's generated database.yml
+    #- cp config/database.yml.ci config/database.yml
+    #- bundle exec rake db:create db:schema:load
+
+## Customize test commands
+test:
+  override:
+    - phpunit # use PHPunit for testing
+
+## Customize deployment commands
+deployment:
+  staging:
+    branch: master
+
+## Custom notifications
+#notify:
+#  webhooks:
+    # A list of hashes representing hooks. Only the url field is supported.
+    # - url: https://someurl.com/hooks/circle
