@@ -30,10 +30,6 @@ dependencies:
     - mysql -u root -e "GRANT ALL ON $TEST_DB_NAME.* TO $TEST_DB_USER@$TEST_DB_HOST IDENTIFIED BY '$TEST_DB_PASS'"
     - bash bin/install-wp-tests.sh $TEST_DB_NAME $TEST_DB_USER $TEST_DB_PASS $TEST_DB_HOST $WP_VERSION
 
-  override:
-    - bundle install: # note ':' here
-        timeout: 180 # fail if command has no output for 3 minutes
-
 ## Customize database setup
 #database:
 #  override:
