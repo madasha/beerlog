@@ -5,14 +5,19 @@ php:
     - 5.4
 
 env:
-    - WP_VERSION=latest WP_MULTISITE=0
+    - WP_VERSION=latest WP_MULTISITE=0 TEST_DB_NAME=wp_tests TEST_DB_USER=wp_user TEST_DB_PASS=wppass TEST_DB_HOST=localhost
 #    - WP_VERSION=latest WP_MULTISITE=1
 #    - WP_VERSION=3.8 WP_MULTISITE=0
 #    - WP_VERSION=3.8 WP_MULTISITE=1
 
 before_script:
-    - bash bin/install-wp-tests.sh wp_tests root '' localhost $WP_VERSION
+    - sudo apt-get update; sudo apt-get install --assume-yes subversion;  svn --version
+    - mysql -u root -e "CREATE DATABASE $TEST_DB_NAME CHARSET utf8"
+    - mysql -u root -e "GRANT ALL ON $TEST_DB_NAME.* TO $TEST_DB_USER@$TEST_DB_HOST IDENTIFIED BY '$TEST_DB_PASS'"
+    - bash bin/install-wp-tests.sh $TEST_DB_NAME $TEST_DB_USER $TEST_DB_PASS $TEST_DB_HOST $WP_VERSION
 
 script: phpunit
+
+sudo: required
 
 
