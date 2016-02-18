@@ -3,6 +3,8 @@ language: php
 php:
     - 5.3
     - 5.4
+    - 5.5
+    - 5.6
 
 env:
     - WP_VERSION=latest WP_MULTISITE=0 TEST_DB_NAME=wp_tests TEST_DB_USER=wp_user TEST_DB_PASS=wppass TEST_DB_HOST=localhost
@@ -19,3 +21,4 @@ script: phpunit
 
 # sudo: required
 sudo: false
+
