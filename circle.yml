@@ -48,9 +48,9 @@ test:
     - phpunit # use PHPunit for testing
 
 ## Customize deployment commands
-deployment:
-  staging:
-    branch: master
+#deployment:
+#  staging:
+#    branch: master
 
 ## Custom notifications
 #notify:
