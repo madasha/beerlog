@@ -49,15 +49,6 @@
 				command="sudo apt-get update; sudo apt-get install --assume-yes subversion;  svn --version"
 				checkreturn="true" passthru="true" />
 
-		<echo message="Creating test DB"/>
-		<echo message="mysql -u root -e 'CREATE DATABASE ${testDbName} CHARSET utf8'" />
-		<exec command="mysql -u root -e 'CREATE DATABASE ${testDbName} CHARSET utf8'"
-				checkreturn="true" passthru="true" />
-
-		<echo message="Adding test user"/>
-		<echo message="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot;'" />
-		<exec command="mysql -u root -e 'GRANT ALL ON ${testDbName}.* TO ${testDbUser}@${testDbHost} IDENTIFIED BY &quot;${testDbPass}&quot;'"
-				checkreturn="true" passthru="true" />
 	</target>
 
 	<!-- =============================================================================================== -->
