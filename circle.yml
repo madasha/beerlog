@@ -26,7 +26,7 @@ machine:
 ## Customize dependencies
 dependencies:
   pre:
-    - mysql -u root -e "CREATE DATABASE $TEST_DB_NAME CHARSET utf8"
+    - mysql -u root -e "DROP DATABASE IF EXISTS $TEST_DB_NAME"
     - mysql -u root -e "GRANT ALL ON $TEST_DB_NAME.* TO $TEST_DB_USER@$TEST_DB_HOST IDENTIFIED BY '$TEST_DB_PASS'"
     - bash bin/install-wp-tests.sh $TEST_DB_NAME $TEST_DB_USER $TEST_DB_PASS $TEST_DB_HOST $WP_VERSION
     - pecl install xdebug
